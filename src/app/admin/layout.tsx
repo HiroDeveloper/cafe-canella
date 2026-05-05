@@ -115,10 +115,19 @@ export default function AdminLayout({
             {menuItems.find(i => i.href === pathname)?.name || "Panel"}
           </h2>
           <div className="flex items-center gap-4">
-            <span className="text-xs font-sans text-muted-foreground italic border-r border-latte pr-4">{session.user.email}</span>
+            <span className="text-xs font-sans text-muted-foreground italic border-r border-latte pr-4 hidden sm:inline-block">
+              {session.user.email}
+            </span>
             <div className="h-8 w-8 rounded-full bg-parchment border border-latte grid place-items-center text-espresso font-bold text-xs">
               AD
             </div>
+            <button 
+              onClick={handleLogout}
+              className="ml-2 p-2 text-roast hover:bg-roast/10 rounded-full transition-colors"
+              title="Cerrar Sesión"
+            >
+              <LogOut size={18} />
+            </button>
           </div>
         </header>
         
