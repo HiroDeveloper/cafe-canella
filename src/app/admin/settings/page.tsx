@@ -16,11 +16,16 @@ import {
   Quote,
   QrCode,
   ShieldAlert,
-  Instagram,
-  Facebook
+  Instagram
 } from "lucide-react";
 import ImageUploader from "@/components/admin/ImageUploader";
 import { QRCodeSVG } from "qrcode.react";
+
+const FacebookIcon = ({ size = 14, className = "" }: { size?: number, className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+  </svg>
+);
 
 export default function SettingsPage() {
   const [info, setInfo] = useState<any>({
@@ -269,48 +274,55 @@ export default function SettingsPage() {
 
             {/* Social */}
             <div className="menu-card p-6 space-y-4">
-              <h3 className="label-stamp text-roast flex items-center gap-2">
-                <Share2 size={14} /> Contacto
+              <h3 className="label-stamp text-roast flex items-center gap-2 border-b border-latte pb-3">
+                <Share2 size={14} /> Contacto y Redes
               </h3>
-              <div className="space-y-3">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <MessageCircle size={14} className="text-botanical" />
+              
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
+                      <Instagram size={12} className="text-espresso" /> Instagram
+                    </label>
                     <input 
-                      placeholder="Número WhatsApp (ej. 573001234567)"
-                      className="flex-1 bg-parchment border border-latte px-2 py-1 rounded text-[11px]"
+                      placeholder="https://instagram.com/..."
+                      className="w-full bg-parchment border border-latte px-3 py-2 rounded outline-none focus:border-espresso font-sans text-xs"
+                      value={info.instagram_url}
+                      onChange={(e) => setInfo({...info, instagram_url: e.target.value})}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
+                      <FacebookIcon size={12} className="text-espresso" /> Facebook
+                    </label>
+                    <input 
+                      placeholder="https://facebook.com/..."
+                      className="w-full bg-parchment border border-latte px-3 py-2 rounded outline-none focus:border-espresso font-sans text-xs"
+                      value={info.facebook_url}
+                      onChange={(e) => setInfo({...info, facebook_url: e.target.value})}
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <label className="text-[10px] label-stamp text-latte flex items-center gap-1 mb-2">
+                    <MessageCircle size={12} className="text-botanical" /> Pedidos por WhatsApp
+                  </label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input 
+                      placeholder="Número (ej. 573001234567)"
+                      className="w-full bg-parchment border border-latte px-3 py-2 rounded outline-none focus:border-espresso font-sans text-xs"
                       value={info.whatsapp_number}
                       onChange={(e) => setInfo({...info, whatsapp_number: e.target.value})}
                     />
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="w-[14px] shrink-0" />
                     <textarea 
                       placeholder="Mensaje automático (Ej: Hola, quisiera pedir...)"
-                      rows={2}
-                      className="flex-1 bg-parchment border border-latte px-2 py-1 rounded text-[11px] resize-none"
+                      rows={1}
+                      className="w-full bg-parchment border border-latte px-3 py-2 rounded outline-none focus:border-espresso font-sans text-xs resize-none"
                       value={info.whatsapp_message || ""}
                       onChange={(e) => setInfo({...info, whatsapp_message: e.target.value})}
                     />
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Instagram size={14} className="text-espresso" />
-                  <input 
-                    placeholder="Instagram URL"
-                    className="flex-1 bg-parchment border border-latte px-2 py-1 rounded text-[11px]"
-                    value={info.instagram_url}
-                    onChange={(e) => setInfo({...info, instagram_url: e.target.value})}
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <Facebook size={14} className="text-espresso" />
-                  <input 
-                    placeholder="Facebook URL"
-                    className="flex-1 bg-parchment border border-latte px-2 py-1 rounded text-[11px]"
-                    value={info.facebook_url}
-                    onChange={(e) => setInfo({...info, facebook_url: e.target.value})}
-                  />
                 </div>
               </div>
             </div>

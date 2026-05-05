@@ -12,17 +12,19 @@ import {
 import Link from "next/link";
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState({ categories: 0, items: 0 });
+  const [stats, setStats] = useState({ categories: 0, items: 0, groups: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadStats() {
       const { count: catCount } = await supabaseAdmin.from("categories").select("*", { count: "exact", head: true });
       const { count: itemCount } = await supabaseAdmin.from("menu_items").select("*", { count: "exact", head: true });
+      const { count: groupCount } = await supabaseAdmin.from("groups").select("*", { count: "exact", head: true });
       
       setStats({
         categories: catCount || 0,
         items: itemCount || 0,
+        groups: groupCount || 0,
       });
       setLoading(false);
     }
@@ -32,7 +34,7 @@ export default function AdminDashboard() {
   const cards = [
     { title: "Categorías", value: stats.categories, icon: <ListTree />, color: "bg-espresso", href: "/admin/categories" },
     { title: "Productos", value: stats.items, icon: <Coffee />, color: "bg-roast", href: "/admin/items" },
-    { title: "Vistas Hoy", value: "124", icon: <TrendingUp />, color: "bg-botanical", href: "#" },
+    { title: "Grupos", value: stats.groups, icon: <TrendingUp />, color: "bg-botanical", href: "#" },
   ];
 
   return (
