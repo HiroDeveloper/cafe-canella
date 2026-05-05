@@ -13,9 +13,12 @@ import {
   Share2,
   Type,
   Image as ImageIcon,
-  Quote
+  Quote,
+  QrCode,
+  ShieldAlert
 } from "lucide-react";
 import ImageUploader from "@/components/admin/ImageUploader";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function SettingsPage() {
   const [info, setInfo] = useState<any>({
@@ -111,6 +114,26 @@ export default function SettingsPage() {
               <div>
                 <span className="block font-sans font-semibold text-espresso text-sm">Fotos de productos al hacer clic</span>
                 <span className="block text-xs text-muted-foreground font-serif italic mt-0.5">Si está activo, los clientes podrán ver fotos de los productos al hacerles clic.</span>
+              </div>
+            </label>
+            <div className="h-px bg-latte/30 my-2" />
+            <label className="flex items-center gap-4 cursor-pointer p-2 rounded-lg hover:bg-parchment/50 transition-colors">
+              <div
+                onClick={() => setInfo({ ...info, is_closed: !info.is_closed })}
+                className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0 ${
+                  info.is_closed ? "bg-roast" : "bg-latte"
+                }`}
+              >
+                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${
+                  info.is_closed ? "left-7" : "left-1"
+                }`} />
+              </div>
+              <div>
+                <span className="flex items-center gap-2 font-sans font-semibold text-espresso text-sm">
+                  <ShieldAlert size={16} className={info.is_closed ? "text-roast" : "text-latte"} />
+                  Modo Mantenimiento / Cerrado
+                </span>
+                <span className="block text-xs text-muted-foreground font-serif italic mt-0.5">Si está activo, el menú público mostrará un mensaje de que están cerrados y nadie podrá ver los productos.</span>
               </div>
             </label>
           </div>
@@ -278,6 +301,55 @@ export default function SettingsPage() {
                     onChange={(e) => setInfo({...info, instagram_url: e.target.value})}
                   />
                 </div>
+              </div>
+            </div>
+
+            {/* QR Generator */}
+            <div className="menu-card p-6 space-y-4">
+              <h3 className="label-stamp text-roast flex items-center gap-2">
+                <QrCode size={14} /> Tu Código QR
+              </h3>
+              <div className="flex flex-col items-center justify-center p-4 bg-white rounded-xl border border-latte/50 shadow-sm">
+                {typeof window !== 'undefined' && (
+                  <QRCodeSVG 
+                    value={window.location.origin} 
+                    size={150} 
+                    bgColor={"#ffffff"}
+                    fgColor={"#352A21"} 
+                    level={"H"} 
+                    includeMargin={true}
+                  />
+                )}
+                <p className="text-[10px] text-muted-foreground text-center mt-3 font-serif">
+                  Escanea para ver el menú.
+                  <br />
+                  <span className="font-sans font-semibold text-espresso">{typeof window !== 'undefined' ? window.location.origin : ''}</span>
+                </p>
+                <button 
+                  type="button"
+                  onClick={() => {
+                    const svg = document.querySelector('.menu-card svg');
+                    if (!svg) return;
+                    const svgData = new XMLSerializer().serializeToString(svg);
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const img = new Image();
+                    img.onload = () => {
+                      canvas.width = img.width;
+                      canvas.height = img.height;
+                      ctx?.drawImage(img, 0, 0);
+                      const pngFile = canvas.toDataURL('image/png');
+                      const downloadLink = document.createElement('a');
+                      downloadLink.download = 'menu-qr.png';
+                      downloadLink.href = `${pngFile}`;
+                      downloadLink.click();
+                    };
+                    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+                  }}
+                  className="mt-4 bg-espresso/10 hover:bg-espresso/20 text-espresso text-xs px-4 py-2 rounded font-semibold transition-colors"
+                >
+                  Descargar PNG
+                </button>
               </div>
             </div>
           </div>

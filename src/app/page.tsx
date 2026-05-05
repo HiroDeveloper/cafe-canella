@@ -121,9 +121,30 @@ export async function generateMetadata() {
 export default async function PublicMenuPage() {
   const { categories, itemsByCategory, groupedCategories, restaurantInfo } = await getMenuData();
 
+  if (restaurantInfo.is_closed) {
+    return (
+      <main className="min-h-screen flex items-center justify-center p-6 bg-parchment bg-[var(--line-pattern)] bg-fixed">
+        <div className="menu-card p-10 text-center max-w-md w-full relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-roast"></div>
+          <div className="w-16 h-16 mx-auto mb-6 bg-cream border border-latte rounded-full flex items-center justify-center text-roast shadow-warm">
+            <span className="font-serif text-3xl">☕</span>
+          </div>
+          <h2 className="text-3xl font-serif mb-4 text-espresso tracking-tight">{restaurantInfo.name}</h2>
+          <div className="ornament mb-4"><span className="text-latte text-sm">✦</span></div>
+          <p className="text-espresso/80 italic font-serif text-lg leading-relaxed">
+            Estamos cerrados por el momento o realizando tareas de mantenimiento.
+          </p>
+          <p className="text-muted-foreground font-sans text-xs mt-6 tracking-wide uppercase">
+            Vuelve pronto
+          </p>
+        </div>
+      </main>
+    );
+  }
+
   if (categories.length === 0) {
     return (
-      <main className="min-h-screen flex items-center justify-center p-4 bg-parchment">
+      <main className="min-h-screen flex items-center justify-center p-4 bg-parchment bg-[var(--line-pattern)] bg-fixed">
         <div className="menu-card p-8 text-center max-w-md w-full">
           <h2 className="text-2xl font-serif mb-4 text-espresso">Menú no disponible</h2>
           <p className="text-muted-foreground italic font-serif">Estamos actualizando nuestra carta. Vuelve pronto.</p>
