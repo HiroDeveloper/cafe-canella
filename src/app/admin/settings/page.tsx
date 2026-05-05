@@ -26,6 +26,7 @@ export default function SettingsPage() {
     wifi_name: "",
     wifi_password: "",
     whatsapp_number: "",
+    whatsapp_message: "",
     instagram_url: "",
     facebook_url: "",
     footer_text: "",
@@ -247,14 +248,26 @@ export default function SettingsPage() {
                 <Share2 size={14} /> Contacto
               </h3>
               <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <MessageCircle size={14} className="text-botanical" />
-                  <input 
-                    placeholder="WhatsApp"
-                    className="flex-1 bg-parchment border border-latte px-2 py-1 rounded text-[11px]"
-                    value={info.whatsapp_number}
-                    onChange={(e) => setInfo({...info, whatsapp_number: e.target.value})}
-                  />
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <MessageCircle size={14} className="text-botanical" />
+                    <input 
+                      placeholder="Número WhatsApp (ej. 573001234567)"
+                      className="flex-1 bg-parchment border border-latte px-2 py-1 rounded text-[11px]"
+                      value={info.whatsapp_number}
+                      onChange={(e) => setInfo({...info, whatsapp_number: e.target.value})}
+                    />
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <div className="w-[14px] shrink-0" />
+                    <textarea 
+                      placeholder="Mensaje automático (Ej: Hola, quisiera pedir...)"
+                      rows={2}
+                      className="flex-1 bg-parchment border border-latte px-2 py-1 rounded text-[11px] resize-none"
+                      value={info.whatsapp_message || ""}
+                      onChange={(e) => setInfo({...info, whatsapp_message: e.target.value})}
+                    />
+                  </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Camera size={14} className="text-espresso" />

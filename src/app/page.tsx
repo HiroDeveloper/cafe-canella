@@ -298,7 +298,9 @@ export default async function PublicMenuPage() {
       </main>
 
       <a 
-        href={`https://wa.me/${restaurantInfo.whatsapp_number}`}
+        href={`https://wa.me/${restaurantInfo.whatsapp_number}${restaurantInfo.whatsapp_message ? `?text=${encodeURIComponent(restaurantInfo.whatsapp_message)}` : ''}`}
+        target="_blank"
+        rel="noopener noreferrer"
         className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 flex items-center justify-center h-14 w-14 rounded-full bg-[#25D366] text-white hover:scale-105 transition-transform shadow-lg"
       >
         <WhatsAppIcon size={28} />
