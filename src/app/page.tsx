@@ -118,12 +118,6 @@ export async function generateMetadata() {
   };
 }
 
-const getExternalUrl = (url: string) => {
-  if (!url) return "#";
-  if (url.startsWith("http://") || url.startsWith("https://")) return url;
-  return `https://${url}`;
-};
-
 export default async function PublicMenuPage() {
   const { categories, itemsByCategory, groupedCategories, restaurantInfo } = await getMenuData();
 
@@ -183,12 +177,12 @@ export default async function PublicMenuPage() {
             </p>
             <div className="mt-6 flex items-center justify-center gap-4 sm:gap-6">
               {restaurantInfo.instagram_url && (
-                <a href={getExternalUrl(restaurantInfo.instagram_url)} target="_blank" rel="noopener noreferrer" className="h-10 w-10 sm:h-11 sm:w-11 grid place-items-center rounded-full border border-cream/50 bg-espresso/30 text-cream hover:bg-cream hover:text-espresso backdrop-blur-sm transition-all hover:scale-105 shadow-lg">
+                <a href={restaurantInfo.instagram_url} target="_blank" rel="noopener noreferrer" className="h-10 w-10 sm:h-11 sm:w-11 grid place-items-center rounded-full border border-cream/50 bg-espresso/30 text-cream hover:bg-cream hover:text-espresso backdrop-blur-sm transition-all hover:scale-105 shadow-lg">
                   <InstagramIcon size={18} />
                 </a>
               )}
               {restaurantInfo.facebook_url && (
-                <a href={getExternalUrl(restaurantInfo.facebook_url)} target="_blank" rel="noopener noreferrer" className="h-10 w-10 sm:h-11 sm:w-11 grid place-items-center rounded-full border border-cream/50 bg-espresso/30 text-cream hover:bg-cream hover:text-espresso backdrop-blur-sm transition-all hover:scale-105 shadow-lg">
+                <a href={restaurantInfo.facebook_url} target="_blank" rel="noopener noreferrer" className="h-10 w-10 sm:h-11 sm:w-11 grid place-items-center rounded-full border border-cream/50 bg-espresso/30 text-cream hover:bg-cream hover:text-espresso backdrop-blur-sm transition-all hover:scale-105 shadow-lg">
                   <FacebookIcon size={18} />
                 </a>
               )}
