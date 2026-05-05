@@ -310,6 +310,9 @@ export default function SettingsPage() {
                     />
                   </div>
                 </div>
+                <p className="text-[10px] text-muted-foreground font-serif italic">
+                  * Asegúrate de incluir <strong>https://</strong> al principio del enlace para que direccione correctamente.
+                </p>
 
                 <div className="pt-4 border-t border-latte/30">
                   <label className="text-[10px] label-stamp text-latte flex items-center gap-1 mb-3">
