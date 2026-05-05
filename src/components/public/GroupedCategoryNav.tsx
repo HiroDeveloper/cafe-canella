@@ -52,8 +52,9 @@ export default function GroupedCategoryNav({ groupedCategories }: GroupedCategor
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-6">
-      <div className="flex items-center justify-center gap-2 py-3 overflow-x-auto hide-scrollbar">
+    <div className="w-full max-w-4xl mx-auto relative">
+      <div className="flex items-center sm:justify-center gap-2 py-3 px-5 overflow-x-auto hide-scrollbar [mask-image:linear-gradient(to_right,transparent,black_16px,black_calc(100%-16px),transparent)] sm:[mask-image:none]">
+        <div className="w-2 shrink-0 sm:hidden"></div> {/* Spacer */}
         {groups.map((group) => (
           <button
             key={group}
@@ -67,6 +68,7 @@ export default function GroupedCategoryNav({ groupedCategories }: GroupedCategor
             {group}
           </button>
         ))}
+        <div className="w-2 shrink-0 sm:hidden"></div> {/* Spacer */}
       </div>
     </div>
   );

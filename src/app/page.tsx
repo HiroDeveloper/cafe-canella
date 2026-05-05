@@ -191,32 +191,32 @@ export default async function PublicMenuPage() {
 
         {/* Info Bar */}
         <div className="bg-cream border-y border-latte">
-          <div className="max-w-4xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
-            <div className="flex items-center gap-3">
+          <div className="max-w-4xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-center gap-5 sm:gap-10 w-fit sm:w-full">
+            <div className="flex items-center gap-4">
               <div className="h-9 w-9 grid place-items-center rounded-full bg-parchment text-roast border border-latte shrink-0">
                 <Clock size={16} />
               </div>
-              <div>
+              <div className="text-left">
                 <div className="label-stamp text-roast text-[0.62rem]">Horarios</div>
                 <div className="text-espresso font-serif text-sm">{restaurantInfo.schedule}</div>
               </div>
             </div>
             <div className="hidden sm:block w-px h-8 bg-latte/50" />
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <div className="h-9 w-9 grid place-items-center rounded-full bg-parchment text-roast border border-latte shrink-0">
                 <MapPin size={16} />
               </div>
-              <div>
+              <div className="text-left">
                 <div className="label-stamp text-roast text-[0.62rem]">Dirección</div>
                 <div className="text-espresso font-serif text-sm">{restaurantInfo.address}</div>
               </div>
             </div>
             <div className="hidden sm:block w-px h-8 bg-latte/50" />
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <div className="h-9 w-9 grid place-items-center rounded-full bg-parchment text-roast border border-latte shrink-0">
                 <Wifi size={16} />
               </div>
-              <div>
+              <div className="text-left">
                 <div className="label-stamp text-roast text-[0.62rem]">Wifi</div>
                 <div className="text-espresso font-mono tracking-wider text-sm">{restaurantInfo.wifi_password}</div>
               </div>
