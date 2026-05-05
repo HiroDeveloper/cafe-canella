@@ -15,8 +15,7 @@ import {
   Image as ImageIcon,
   Quote,
   QrCode,
-  ShieldAlert,
-  Instagram
+  ShieldAlert
 } from "lucide-react";
 import ImageUploader from "@/components/admin/ImageUploader";
 import { QRCodeSVG } from "qrcode.react";
@@ -24,6 +23,14 @@ import { QRCodeSVG } from "qrcode.react";
 const FacebookIcon = ({ size = 14, className = "" }: { size?: number, className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+  </svg>
+);
+
+const InstagramIcon = ({ size = 14, className = "" }: { size?: number, className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
   </svg>
 );
 
@@ -282,7 +289,7 @@ export default function SettingsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                      <Instagram size={12} className="text-espresso" /> Instagram
+                      <InstagramIcon size={12} className="text-espresso" /> Instagram
                     </label>
                     <input 
                       placeholder="https://instagram.com/..."
