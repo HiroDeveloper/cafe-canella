@@ -311,24 +311,30 @@ export default function SettingsPage() {
                   </div>
                 </div>
 
-                <div className="pt-2">
-                  <label className="text-[10px] label-stamp text-latte flex items-center gap-1 mb-2">
+                <div className="pt-4 border-t border-latte/30">
+                  <label className="text-[10px] label-stamp text-latte flex items-center gap-1 mb-3">
                     <MessageCircle size={12} className="text-botanical" /> Pedidos por WhatsApp
                   </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input 
-                      placeholder="Número (ej. 573001234567)"
-                      className="w-full bg-parchment border border-latte px-3 py-2 rounded outline-none focus:border-espresso font-sans text-xs"
-                      value={info.whatsapp_number}
-                      onChange={(e) => setInfo({...info, whatsapp_number: e.target.value})}
-                    />
-                    <textarea 
-                      placeholder="Mensaje automático (Ej: Hola, quisiera pedir...)"
-                      rows={1}
-                      className="w-full bg-parchment border border-latte px-3 py-2 rounded outline-none focus:border-espresso font-sans text-xs resize-none"
-                      value={info.whatsapp_message || ""}
-                      onChange={(e) => setInfo({...info, whatsapp_message: e.target.value})}
-                    />
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <label className="text-[10px] label-stamp text-latte">Número de teléfono</label>
+                      <input 
+                        placeholder="Ej: 573001234567"
+                        className="w-full bg-parchment border border-latte px-3 py-2 rounded outline-none focus:border-espresso font-sans text-xs"
+                        value={info.whatsapp_number}
+                        onChange={(e) => setInfo({...info, whatsapp_number: e.target.value})}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] label-stamp text-latte">Mensaje automático inicial</label>
+                      <textarea 
+                        placeholder="Ej: Hola Café Canella, me gustaría hacer un pedido..."
+                        rows={3}
+                        className="w-full bg-parchment border border-latte px-3 py-2 rounded outline-none focus:border-espresso font-sans text-xs resize-none"
+                        value={info.whatsapp_message || ""}
+                        onChange={(e) => setInfo({...info, whatsapp_message: e.target.value})}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
