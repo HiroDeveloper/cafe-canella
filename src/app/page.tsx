@@ -212,11 +212,16 @@ export default async function PublicMenuPage() {
               <Sparkles size={14} />
             </div>
             <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
-               <span className="font-serif text-lg sm:text-xl text-espresso italic">Ice Latte</span>
-               <span className="text-latte hidden sm:inline">✦</span>
-               <span className="font-serif text-lg sm:text-xl text-espresso italic">Limonada de Lychee</span>
-               <span className="text-latte hidden sm:inline">✦</span>
-               <span className="font-serif text-lg sm:text-xl text-espresso italic">Granizado Mango</span>
+              {(restaurantInfo.recommendations ?? "Ice Latte, Limonada de Lychee, Granizado Mango")
+                .split(",")
+                .map((r: string) => r.trim())
+                .filter(Boolean)
+                .map((rec: string, idx: number, arr: string[]) => (
+                  <span key={idx} className="flex items-center gap-x-5">
+                    <span className="font-serif text-lg sm:text-xl text-espresso italic">{rec}</span>
+                    {idx < arr.length - 1 && <span className="text-latte hidden sm:inline">✦</span>}
+                  </span>
+                ))}
             </div>
           </div>
         </div>

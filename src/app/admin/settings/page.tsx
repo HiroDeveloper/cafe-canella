@@ -157,9 +157,20 @@ export default function SettingsPage() {
             {/* SECCIÓN FOOTER / FRASES */}
             <div className="menu-card p-6 space-y-6">
               <h3 className="label-stamp text-roast flex items-center gap-2 border-b border-latte pb-3">
-                <Quote size={14} /> Pie de Página y Frases
+                <Quote size={14} /> Recomendaciones y Frases
               </h3>
               
+              <div className="space-y-1">
+                <label className="text-[10px] label-stamp text-latte">Recomendaciones del Día</label>
+                <input 
+                  placeholder="Ej: Ice Latte, Limonada de Lychee, Granizado Mango"
+                  className="w-full bg-parchment border border-latte px-3 py-2 rounded outline-none focus:border-espresso font-serif italic text-sm"
+                  value={info.recommendations ?? "Ice Latte, Limonada de Lychee, Granizado Mango"}
+                  onChange={(e) => setInfo({...info, recommendations: e.target.value})}
+                />
+                <p className="text-[9px] text-muted-foreground mt-1">Separa cada producto con una coma (,)</p>
+              </div>
+
               <div className="space-y-1">
                 <label className="text-[10px] label-stamp text-latte">Frase Inspiracional (Quote)</label>
                 <textarea 
