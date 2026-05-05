@@ -278,12 +278,17 @@ export default async function PublicMenuPage() {
           <span className="text-lg font-serif">❧</span>
         </div>
 
-        <footer className="text-center pb-8">
+        <footer className="text-center pb-8 space-y-4">
           <p className="label-stamp text-roast">{restaurantInfo.footer_text}</p>
           <p className="mt-3 font-serif italic text-muted-foreground">
             {restaurantInfo.quote_text}
           </p>
-          <p className="mt-6 font-serif text-espresso">— {restaurantInfo.name} —</p>
+          <p className="mt-6 font-serif text-espresso font-semibold">— {restaurantInfo.name} —</p>
+          <div className="pt-8">
+            <p className="text-[0.65rem] sm:text-xs font-sans text-muted-foreground opacity-60">
+              Powered by <span className="font-semibold tracking-wide">Codify</span>
+            </p>
+          </div>
         </footer>
       </main>
 
