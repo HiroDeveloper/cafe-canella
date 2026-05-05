@@ -15,7 +15,9 @@ import {
   Image as ImageIcon,
   Quote,
   QrCode,
-  ShieldAlert
+  ShieldAlert,
+  Instagram,
+  Facebook
 } from "lucide-react";
 import ImageUploader from "@/components/admin/ImageUploader";
 import { QRCodeSVG } from "qrcode.react";
@@ -293,12 +295,21 @@ export default function SettingsPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Camera size={14} className="text-espresso" />
+                  <Instagram size={14} className="text-espresso" />
                   <input 
                     placeholder="Instagram URL"
                     className="flex-1 bg-parchment border border-latte px-2 py-1 rounded text-[11px]"
                     value={info.instagram_url}
                     onChange={(e) => setInfo({...info, instagram_url: e.target.value})}
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <Facebook size={14} className="text-espresso" />
+                  <input 
+                    placeholder="Facebook URL"
+                    className="flex-1 bg-parchment border border-latte px-2 py-1 rounded text-[11px]"
+                    value={info.facebook_url}
+                    onChange={(e) => setInfo({...info, facebook_url: e.target.value})}
                   />
                 </div>
               </div>

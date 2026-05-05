@@ -176,15 +176,21 @@ export default async function PublicMenuPage() {
               {restaurantInfo.tagline}
             </p>
             <div className="mt-5 flex items-center gap-2.5 sm:gap-3">
-              <a href={restaurantInfo.instagram_url} target="_blank" rel="noopener noreferrer" className="h-9 w-9 sm:h-10 sm:w-10 grid place-items-center rounded-full border border-cream/40 text-cream hover:bg-cream hover:text-espresso transition-colors">
-                <InstagramIcon />
-              </a>
-              <a href={restaurantInfo.facebook_url} target="_blank" rel="noopener noreferrer" className="h-9 w-9 sm:h-10 sm:w-10 grid place-items-center rounded-full border border-cream/40 text-cream hover:bg-cream hover:text-espresso transition-colors">
-                <FacebookIcon />
-              </a>
-              <a href={`https://wa.me/${restaurantInfo.whatsapp_number}`} target="_blank" rel="noopener noreferrer" className="h-9 w-9 sm:h-10 sm:w-10 grid place-items-center rounded-full border border-cream/40 text-cream hover:bg-cream hover:text-espresso transition-colors">
-                <WhatsAppIcon />
-              </a>
+              {restaurantInfo.instagram_url && (
+                <a href={restaurantInfo.instagram_url} target="_blank" rel="noopener noreferrer" className="h-9 w-9 sm:h-10 sm:w-10 grid place-items-center rounded-full border border-cream/40 text-cream hover:bg-cream hover:text-espresso transition-colors">
+                  <InstagramIcon />
+                </a>
+              )}
+              {restaurantInfo.facebook_url && (
+                <a href={restaurantInfo.facebook_url} target="_blank" rel="noopener noreferrer" className="h-9 w-9 sm:h-10 sm:w-10 grid place-items-center rounded-full border border-cream/40 text-cream hover:bg-cream hover:text-espresso transition-colors">
+                  <FacebookIcon />
+                </a>
+              )}
+              {restaurantInfo.whatsapp_number && (
+                <a href={`https://wa.me/${restaurantInfo.whatsapp_number}${restaurantInfo.whatsapp_message ? `?text=${encodeURIComponent(restaurantInfo.whatsapp_message)}` : ''}`} target="_blank" rel="noopener noreferrer" className="h-9 w-9 sm:h-10 sm:w-10 grid place-items-center rounded-full border border-cream/40 text-cream hover:bg-cream hover:text-espresso transition-colors">
+                  <WhatsAppIcon />
+                </a>
+              )}
             </div>
           </div>
         </div>
