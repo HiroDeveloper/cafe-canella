@@ -15,6 +15,7 @@ import {
   Image as ImageIcon,
   Quote
 } from "lucide-react";
+import ImageUploader from "@/components/admin/ImageUploader";
 
 export default function SettingsPage() {
   const [info, setInfo] = useState<any>({
@@ -141,17 +142,15 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <label className="text-[10px] label-stamp text-latte">URL Imagen de Fondo (Hero)</label>
-                <div className="relative">
-                  <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-latte" size={14} />
-                  <input 
-                    className="w-full pl-10 pr-4 py-2 bg-parchment border border-latte rounded outline-none focus:border-espresso font-sans text-xs"
-                    value={info.hero_image_url}
-                    onChange={(e) => setInfo({...info, hero_image_url: e.target.value})}
+              <div className="space-y-2">
+                <label className="text-[10px] label-stamp text-latte">Imagen de Fondo (Hero)</label>
+                <div className="bg-parchment rounded-lg border border-latte/50 p-2">
+                  <ImageUploader 
+                    value={info.hero_image_url} 
+                    onChange={(url) => setInfo({...info, hero_image_url: url})} 
                   />
                 </div>
-                <p className="text-[9px] text-muted-foreground mt-1">Usa una imagen de alta resolución (unsplash, etc.)</p>
+                <p className="text-[9px] text-muted-foreground mt-1">Sube una foto o pega una URL. Recomendado: foto apaisada de alta resolución.</p>
               </div>
             </div>
 
