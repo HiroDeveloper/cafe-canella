@@ -1,0 +1,229 @@
+{
+  "restaurante": "Café Canella",
+  "menu": {
+    "cafeteria_caliente": {
+      "nombre": "Cafetería Caliente",
+      "items": [
+        { "nombre": "Latte", "descripcion": "Espresso + leche texturizada", "precio": 7000 },
+        { "nombre": "Cappuccino", "descripcion": "Espresso doble + leche texturizada + canela/cacao", "precio_sencillo": 7500, "precio_doble": 11500 },
+        { "nombre": "Cappuccino con sabor", "descripcion": "Vainilla, Arequipe o Amaretto", "precio": 13000 },
+        { "nombre": "Cappuccino con licor / Doble", "descripcion": "Amaretto / Crema de Whisky / Whisky o Brandy", "precio": 16000 },
+        { "nombre": "Café de finca", "descripcion": "Clavos + Canela y panela", "precio": 5000 },
+        { "nombre": "Carajillo", "descripcion": "Café con licor: Amaretto / Crema de Whisky / Whisky", "precio": 11500 },
+        { "nombre": "Espresso", "descripcion": "30 ml café concentrado", "precio": 5500 },
+        { "nombre": "Espresso Doble", "descripcion": "60 ml café concentrado", "precio": 7500 },
+        { "nombre": "Café Tradicional", "descripcion": "Tinto de toda la vida", "precio": 3000 },
+        { "nombre": "Americano", "descripcion": "Espresso equilibrado con agua", "precio": 5500 },
+        { "nombre": "Especial Café Canela", "descripcion": "Espresso + licor de café + leche texturizada + crema Chantilly", "precio": 16000 },
+        { "nombre": "Moccaccino", "descripcion": "Espresso + chocolate + leche texturizada", "precio": 9500 },
+        { "nombre": "Bombón", "descripcion": "Espresso + leche condensada + salsa chocolate + leche texturizada y espumada", "precio": 12500 },
+        { "nombre": "Vienés", "descripcion": "Espresso + crema batida + crema Chantilly", "precio": 12500 }
+      ]
+    },
+    "aromaticas_y_calientes": {
+      "nombre": "Aromáticas y Calientes",
+      "items": [
+        { "nombre": "Aromática de frutas", "descripcion": "Infusión de hierbas y frutas", "precio": 8000 },
+        { "nombre": "Chocolate con queso", "descripcion": "Caliente, cremoso y aromático, acompañado de queso suave", "precio_sencillo": 9000, "precio_doble": 13000 },
+        { "nombre": "Agua de panela con queso", "descripcion": "Tradicional agua de panela caliente acompañada con queso suave", "precio": 9000 },
+        { "nombre": "Milo Caliente", "descripcion": "Milo espumoso, el favorito de grandes y chicos", "precio_sencillo": 11000, "precio_doble": 15000 }
+      ]
+    },
+    "cafeteria_fria": {
+      "nombre": "Cafetería Fría",
+      "items": [
+        { "nombre": "Ice Coffee", "descripcion": "Espresso, caramelo y hielo", "precio": 12000 },
+        { "nombre": "Ice Latte", "descripcion": "1/2 shot de espresso, leche, hielo, caramelo", "precio": 13000 },
+        { "nombre": "Ice Cappuccino", "descripcion": "1 shot de espresso, leche, caramelo, hielo", "precio": 14000 },
+        { "nombre": "Café de verano", "descripcion": "Refrescante mezcla de café y jugo de naranja, combinación cítrica y energética", "precio": 12000 },
+        { "nombre": "Frozen Milo", "descripcion": "Leche fría, Milo, hielo", "precio": 13000 }
+      ]
+    },
+    "frappuccinos": {
+      "nombre": "Especialidad Helada — Frappuccinos",
+      "items": [
+        { "nombre": "Frappuccino de Café", "descripcion": "Bebida fría tipo frappé con intenso sabor a café, crema chantilly y sirope de chocolate", "precio": 15000 },
+        { "nombre": "Frappuccino Arequipe", "descripcion": "Bebida fría tipo frappé con delicioso sabor a arequipe y chantilly", "precio": 17000 },
+        { "nombre": "Frappuccino de Brownie", "descripcion": "Crema chantilly, topping de brownie y salsa de chocolate", "precio": 17000 },
+        { "nombre": "Frappu Bailys", "descripcion": "Frappuccino + crema de Whisky + chantilly", "precio": 20000 },
+        { "nombre": "Frappuccino Mocca", "descripcion": "Frappuccino a base de chocolate + chantilly", "precio": 18000 },
+        { "nombre": "Frappuccino Oreo", "descripcion": "Frappuccino + galletas Oreo + chantilly", "precio": 18000 },
+        { "nombre": "Frappu Mini Chips", "descripcion": "Frappuccino + Mini Chips (galletitas de chocolate) + chantilly", "precio": 18000 },
+        { "nombre": "Frappuccino M&M's", "descripcion": "Frappuccino + topping de M&M's + chantilly", "precio": 18000 },
+        { "nombre": "Frappuccino de Milo", "descripcion": "Frappuccino + Milo + chantilly", "precio": 18000 },
+        { "nombre": "Frappuccino Licor Whisky", "descripcion": "Frappuccino + shot de Whisky + chantilly + barquillo", "precio": 22000 }
+      ]
+    },
+    "bebidas_frias": {
+      "nombre": "Bebidas Frías",
+      "items": [
+        { "nombre": "Limonada de sandía", "descripcion": "Sandía y limón, natural y refrescante", "precio": 15000 },
+        { "nombre": "Limonada de coco", "descripcion": "Refrescante mezcla entre el coco, la leche y el limón, cremosa y refrescante", "precio": 16000 },
+        { "nombre": "Limonada de frutos rojos", "descripcion": "Para aquellos que no se conforman con lo clásico", "precio": 14000 },
+        { "nombre": "Limonada de hierba buena", "descripcion": "Zumo de limón, hierba buena, azúcar y hielo", "precio": 12000 },
+        { "nombre": "Cerezada", "descripcion": "Dulzor y acidez perfectamente equilibrados", "precio": 14000 },
+        { "nombre": "Naranjada", "descripcion": "Bebida refrescante de naranja natural, perfecta para cualquier momento", "precio": 8000 },
+        { "nombre": "Cítrica en agua / soda", "descripcion": "Clásica / burbujeante", "precio_agua": 8000, "precio_soda": 11000 },
+        { "nombre": "Limonada de panela", "descripcion": "Del llano a tu mesa", "precio": 7000 },
+        { "nombre": "Limonada de Lychee", "descripcion": "Todo lo bueno de la limonada con el delicado sabor del Lychee", "precio": 15000 },
+        { "nombre": "Jugos en agua / leche", "descripcion": "Preguntar por variedad", "precio_agua": 8000, "precio_leche": 10000 },
+        { "nombre": "Agua con Gas / Sin Gas", "descripcion": "Presentación personal", "precio": 4000 },
+        { "nombre": "Gaseosa personal", "descripcion": "Preguntar por variedad", "precio": 5000 },
+        { "nombre": "Maracumango", "descripcion": "Explosión tropical de mango dulce con el toque ácido del maracuyá", "precio": 15000 },
+        { "nombre": "Cremoso de frutos rojos", "descripcion": "Bebida cremosa a base de frutos rojos y helado", "precio": 14000 },
+        { "nombre": "Cremoso de Maracuyá", "descripcion": "Bebida cremosa con el equilibrio perfecto entre dulce y ácido", "precio": 14000 },
+        { "nombre": "Cremoso de Mocca / Café", "descripcion": "1 shot de espresso de café y helado", "precio": 16000 },
+        { "nombre": "Sodas Cheladas", "descripcion": "Acompáñalas como prefieras: Frutos Rojos / Frutos Amarillos / Frutos Verdes", "precio": 15000 },
+        { "nombre": "Soda Lulada", "descripcion": "Frutal, cítrica y burbujeante", "precio": 15000 },
+        { "nombre": "Granizado", "descripcion": "Maracuyá / Fresa / Lulo / Mango / Limón", "precio": 12000 },
+        { "nombre": "Granizado de Café", "descripcion": "Espresso + limón, panela, lo que tu día necesita", "precio": 13000 },
+        { "nombre": "Granizado Trululu", "descripcion": "Fruta a elección + granizada con gomas trululu", "precio": 16000 }
+      ]
+    },
+    "malteadas": {
+      "nombre": "Malteadas 100% Helado",
+      "items": [
+        { "nombre": "Malteada de la casa", "descripcion": "Helado + vainilla, fresa o chocolate", "precio": 15000 },
+        { "nombre": "Malteada de Oreo", "descripcion": "Helado mixeado con Oreo", "precio": 18000 },
+        { "nombre": "Malteada de Milo", "descripcion": "Helado mixeado con Milo", "precio": 18000 },
+        { "nombre": "Malteada de Arequipe", "descripcion": "Suave y cremosa mezcla de helado con Arequipe", "precio": 18000 },
+        { "nombre": "Malteada de Café", "descripcion": "1 shot espresso de café + helado", "precio": 18000 },
+        { "nombre": "Malteada de Brownie", "descripcion": "Deliciosa mezcla de brownie artesanal con helado", "precio": 18000 }
+      ]
+    },
+    "waffles": {
+      "nombre": "Brunch Dulce — Waffles",
+      "items": [
+        { "nombre": "Waffle Sencillo", "descripcion": "Sirope de maple, banano y crema chantilly", "precio": 13000 },
+        { "nombre": "Waffle Quesadillo", "descripcion": "Relleno de queso y bocadillo", "precio": 14000 },
+        { "nombre": "Waffle Especial", "descripcion": "Sirope de maple, durazno, banano, fresas, uvas, helado, crema chantilly y salsa de chocolate", "precio": 19000 },
+        { "nombre": "Waffle de avellanas", "descripcion": "Sirope de maple, helado, crema chantilly y crema de avellanas", "precio": 15000 }
+      ]
+    },
+    "sandwiches": {
+      "nombre": "Sándwiches",
+      "items": [
+        { "nombre": "Sándwich Clásico", "descripcion": "Pan tajado artesanal, jamón, queso, aderezos, lechuga y tomate", "precio": 10000 },
+        { "nombre": "Sándwich Especial", "descripcion": "Pan tajado artesanal, nuggets de pollo, jamón, queso, tocineta, aderezos, lechuga y tomate", "precio": 14000 },
+        { "nombre": "Sándwich Cubano", "descripcion": "Pan artesanal, triple jamón, triple queso, pepinillos, lechuga, tomate, salsa de ajo y salsa de la casa", "precio": 19000 },
+        { "nombre": "Sándwich de Pollo / Cerdo / Res", "descripcion": "Pan artesanal, 120 gr de la proteína seleccionada, queso, lechuga, tomate y salsa de la casa", "precio": 22000 },
+        { "nombre": "Sándwich Mixto", "descripcion": "Pan artesanal, 60 gr de pollo en tiras y 60 gr de lomo de res en tiras, queso, lechuga, tomate y salsa de la casa", "precio": 24000 }
+      ]
+    },
+    "hamburguesas_especiales": {
+      "nombre": "Hamburguesas Especiales (Lo Nuevo)",
+      "items": [
+        { "nombre": "Hamburguesa Espresso de carne", "descripcion": "150 gr de carne de res, 80 gr de carne desmechada, queso doble crema, pepinillos, lechuga y tomate", "precio": 28500 },
+        { "nombre": "Hamburguesa Macciato de Pollo", "descripcion": "150 gr res, 80 gr pollo desmechado bañado en salsa de champiñón y tocineta, queso, lechuga y tomate", "precio": 28500 },
+        { "nombre": "Hamburguesa Capuccicarne", "descripcion": "150 gr de carne de res, 80 gr de panceta bañada en salsa BBQ, tocineta, queso, lechuga y tomate", "precio": 28500 }
+      ]
+    },
+    "canastas_de_patacon": {
+      "nombre": "Canastas de Patacón (Lo Nuevo)",
+      "items": [
+        { "nombre": "Pollo en salsa Bechamel", "descripcion": "Pollo desmechado acompañado de salsa de crema de leche con champiñón, coronado con trozos de tocineta y queso parmesano", "precio": 23000 },
+        { "nombre": "Carne desmechada", "descripcion": "Canasta de patacón dorado con carne desmechada coronada de pico e' gallo", "precio": 23000 },
+        { "nombre": "Mixto de autor", "descripcion": "Canasta de patacón, carne de res y pollo desmechados, salsa de la casa y pico de gallo", "precio": 26000 }
+      ]
+    },
+    "mini_hamburguesas": {
+      "nombre": "Mini Hamburguesas (x1 / x2)",
+      "items": [
+        { "nombre": "Mini Hamburguesa Clásica", "descripcion": "100 gr carne de res, queso, lechuga, tomate y aderezos", "precio_x1": 15000, "precio_x2": 25000 },
+        { "nombre": "Mini Hamburguesa Americana", "descripcion": "100 gr de carne de res, queso, tocineta, lechuga, tomate, pepinillos y aderezos", "precio_x1": 17500, "precio_x2": 27000 },
+        { "nombre": "Mini Hamburguesa Argentina", "descripcion": "100 gr de carne de res, chorizo, queso, lechuga, tomate y aderezos", "precio_x1": 19000, "precio_x2": 29000 },
+        { "nombre": "Mini Hamburguesa Lolita", "descripcion": "100 gr de carne de res, mezcla de tocineta y cebolla caramelizada, lechuga, tomate y aderezos", "precio_x1": 17500, "precio_x2": 27000 },
+        { "nombre": "Mini Hamburguesa Mexicana", "descripcion": "100 gr de carne de res, guacamole, hogao, tostacos, queso, lechuga y tomate", "precio_x1": 17000, "precio_x2": 27000 }
+      ]
+    },
+    "picadas": {
+      "nombre": "Picadas",
+      "items": [
+        { "nombre": "Picada Pergamino", "descripcion": "Alitas, chorizo, empanaditas de carne, pataconas, ensalada y salsas", "precio": 34000 },
+        { "nombre": "Picada Tabi", "descripcion": "Costillitas precocidas, trozos de lomo de res anchos, salchicha ranchera, ensalada, papa a la francesa y salsa BBQ", "precio": 34000 },
+        { "nombre": "Picada Fazenda", "descripcion": "Preguntar por contenido", "precio": 40000 },
+        { "nombre": "Picada Caturra", "descripcion": "Lomo de cerdo, res, pechuga, monedas de plátano verde, ensalada y aderezos", "precio": 34000 }
+      ]
+    },
+    "salchipapas": {
+      "nombre": "Salchipapas",
+      "items": [
+        { "nombre": "Salchipapa Tradicional", "descripcion": "Salchicha ranchera + 150 gr de papas a la francesa y aderezos", "precio": 18000 },
+        { "nombre": "Salchipapa Caramelizada", "descripcion": "Salchicha ranchera caramelizada + 150 gr de papas a la francesa y aderezos", "precio": 20000 },
+        { "nombre": "Salchipapa Especial", "descripcion": "Salchicha ranchera, costillitas ahumadas, tocineta, pico e' gallo y queso rallado + 150 gr de papas a la francesa y aderezos", "precio": 24000 }
+      ]
+    },
+    "burritos": {
+      "nombre": "Burritos",
+      "items": [
+        { "nombre": "Burrito Tradicional", "descripcion": "Jamón, queso, lechuga, tomate y aderezos", "precio": 12000 },
+        { "nombre": "Burrito Especial", "descripcion": "Nuggets de pollo, jamón, queso, tocineta, lechuga, tomate y aderezos (incluyen papas)", "precio": 16500 },
+        { "nombre": "Burrito El Trío", "descripcion": "Lomo de res, pechuga, costillita, maíz, guacamole, pico e' gallo y aderezos", "precio": 18000 }
+      ]
+    },
+    "ensaladas": {
+      "nombre": "Ensaladas",
+      "items": [
+        { "nombre": "Ensalada Pollo o Res", "descripcion": "Trozos de pechuga de pollo o lomo de res, queso, lechuga, tomate, maíz, mix de frutos secos y vinagreta", "precio": 21000 },
+        { "nombre": "Ensalada Mixta", "descripcion": "Trozos de pechuga de pollo y lomo de res, queso, lechuga, tomate, maíz, mix de frutos secos y vinagreta", "precio": 24000 }
+      ]
+    },
+    "para_picar": {
+      "nombre": "Para Picar",
+      "items": [
+        { "nombre": "Combo Nuggets de pollo", "descripcion": "Deliciosos nuggets de pollo acompañados de papas a la francesa y limonada de limón y panela", "precio": 23000 },
+        { "nombre": "Empanadas de carne", "descripcion": "6 unidades", "precio": 13000 },
+        { "nombre": "Patacones con hogao", "descripcion": "Crujientes patacones acompañados de hogao casero tradicional", "precio": 13000 },
+        { "nombre": "Chips de plátano", "descripcion": "Acompañados de suero costeño", "precio": 13000 },
+        { "nombre": "Papas a la francesa", "descripcion": "150 gr + aderezos", "precio": 5000 },
+        { "nombre": "Alitas de pollo x6", "descripcion": "BBQ, miel, mostaza + papas a la francesa", "precio": 17000 },
+        { "nombre": "Alitas de pollo x12", "descripcion": "BBQ, miel, mostaza + papas a la francesa", "precio": 23000 },
+        { "nombre": "Alitas de pollo x18", "descripcion": "BBQ, miel, mostaza + papas a la francesa", "precio": 29000 }
+      ]
+    },
+    "tragos": {
+      "nombre": "Tragos",
+      "items": [
+        { "nombre": "Cuban Mojito", "descripcion": "Ron carta blanca, yerbabuena, azúcar morena, limón (ginger / soda)", "precio": 20000 },
+        { "nombre": "Margarita", "descripcion": "Tequila, Triple sec, limón + escarchado de salpimienta", "precio": 20000 },
+        { "nombre": "Piña colada", "descripcion": "Ron carta blanca, piña, crema de coco, almíbar", "precio": 22000 },
+        { "nombre": "Tequila Sunrise", "descripcion": "Tequila, jugo de naranja natural y granadina", "precio": 18000 },
+        { "nombre": "Vodka Tonic", "descripcion": "Vodka, agua tónica + fruta a elección", "precio": 20000 },
+        { "nombre": "Screwdriver", "descripcion": "Vino tinto, azúcar morena, anís, canela, clavos, frutos cítricos deshidratados", "precio": 15000 }
+      ]
+    },
+    "cervezas": {
+      "nombre": "Cervezas",
+      "items": [
+        { "nombre": "Michelada limón y sal pimienta", "descripcion": "Preguntar por variedad", "precio": 3000 },
+        { "nombre": "Michelada maracuyá, limón y sal pimienta", "descripcion": "", "precio": 5000 },
+        { "nombre": "Michelada mango, limón y sal pimienta", "descripcion": "", "precio": 5000 },
+        { "nombre": "Miller Lite", "descripcion": "Presentación personal", "precio": 6000 },
+        { "nombre": "Andina", "descripcion": "Presentación personal", "precio": 4000 },
+        { "nombre": "Club Colombia dorada / roja", "descripcion": "Presentación personal", "precio": 6000 },
+        { "nombre": "Águila tradicional / light", "descripcion": "Presentación personal", "precio": 4000 },
+        { "nombre": "Costeña", "descripcion": "Presentación personal", "precio": 4500 },
+        { "nombre": "Coronita", "descripcion": "Presentación personal", "precio": 4000 },
+        { "nombre": "Corona", "descripcion": "Presentación personal", "precio": 4000 },
+        { "nombre": "Heineken", "descripcion": "Presentación personal", "precio": 6000 },
+        { "nombre": "Stella Artois", "descripcion": "Presentación personal", "precio": 9000 },
+        { "nombre": "Budweiser", "descripcion": "Presentación personal", "precio": 9000 },
+        { "nombre": "Redd's", "descripcion": "Presentación personal", "precio": 6000 }
+      ]
+    },
+    "postres": {
+      "nombre": "Postres",
+      "items": [
+        { "nombre": "1/2 Porción de torta artesanal", "descripcion": "Preguntar por torta de temporada", "precio": 3500 },
+        { "nombre": "Porción de torta artesanal", "descripcion": "Preguntar por torta de temporada", "precio": 6000 },
+        { "nombre": "Porción de Brownie Artesanal", "descripcion": "", "precio": 5000 },
+        { "nombre": "Muffins Artesanales", "descripcion": "El acompañamiento perfecto", "precio": 5000 },
+        { "nombre": "Tacita Oreo", "descripcion": "", "precio": 12000 },
+        { "nombre": "Brownie con helado", "descripcion": "", "precio": 12000 },
+        { "nombre": "Copa de helado", "descripcion": "", "precio": 14000 },
+        { "nombre": "Copa Oreo & crema de Whisky", "descripcion": "", "precio": 18000 },
+        { "nombre": "Affogatto", "descripcion": "", "precio": 14000 }
+      ]
+    }
+  }
+}
