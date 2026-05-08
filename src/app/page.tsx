@@ -1,4 +1,6 @@
 import GroupedCategoryNav from '@/components/public/GroupedCategoryNav';
+import FontSwitcher from '@/components/public/FontSwitcher';
+import PQRSForm from '@/components/public/PQRSForm';
 import MenuItemCard from '@/components/public/MenuItemCard';
 import { supabase } from '@/lib/supabase';
 import { Category, MenuItem } from '@/lib/types';
@@ -262,7 +264,7 @@ export default async function PublicMenuPage() {
       {/* Menu Sections grouped by Group Name */}
       <main className="max-w-4xl mx-auto px-6 py-12 md:py-16 space-y-20">
         {Object.entries(groupedCategories).map(([groupName, cats]) => (
-          <div key={groupName} className="space-y-8">
+          <div key={groupName} id={`group-${groupName.toLowerCase().replace(/\s+/g, '-')}`} className="space-y-8 scroll-mt-24">
             {/* Separador de grupo — estilo Recomendación del Día */}
             <div className="menu-card p-6 sm:p-8 text-center">
               <div className="flex items-center justify-center gap-3 text-latte">
@@ -324,6 +326,8 @@ export default async function PublicMenuPage() {
         </footer>
       </main>
 
+      <PQRSForm />
+      <FontSwitcher />
       <a 
         href={`https://wa.me/${restaurantInfo.whatsapp_number}${restaurantInfo.whatsapp_message ? `?text=${encodeURIComponent(restaurantInfo.whatsapp_message)}` : ''}`}
         target="_blank"

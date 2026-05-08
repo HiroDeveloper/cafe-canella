@@ -41,12 +41,10 @@ export default function GroupedCategoryNav({ groupedCategories }: GroupedCategor
   }, [groupedCategories]);
 
   const scrollToGroup = (group: string) => {
-    const firstCat = groupedCategories[group]?.[0];
-    if (!firstCat) return;
-    const el = document.getElementById(`sec-${firstCat.slug}`);
+    const groupId = `group-${group.toLowerCase().replace(/\s+/g, "-")}`;
+    const el = document.getElementById(groupId);
     if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 88;
-      window.scrollTo({ top, behavior: "smooth" });
+      el.scrollIntoView({ behavior: "smooth" });
     }
     setActiveGroup(group);
   };

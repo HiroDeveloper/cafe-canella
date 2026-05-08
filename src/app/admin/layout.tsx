@@ -12,7 +12,8 @@ import {
   LogOut, 
   ChevronRight,
   Menu,
-  X
+  X,
+  MessageSquare
 } from "lucide-react";
 
 export default function AdminLayout({
