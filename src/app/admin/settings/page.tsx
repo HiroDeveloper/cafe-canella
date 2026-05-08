@@ -50,6 +50,8 @@ export default function SettingsPage() {
     footer_text: "",
     quote_text: "",
     hero_image_url: "",
+    show_font_switcher: true,
+    show_item_images: true,
     font_settings: {
       title_font: "var(--font-next-serif)",
       tagline_font: "var(--font-next-serif)",
@@ -89,7 +91,7 @@ export default function SettingsPage() {
     const { error } = await supabaseAdmin
       .from("restaurant_info")
       .update(updateData)
-      .eq("id", 1);
+      .eq("id", id);
     
     if (error) {
       setMessage({ type: "error", text: "Error al guardar los cambios." });
@@ -126,7 +128,7 @@ export default function SettingsPage() {
           <div className="relative">
             <label className="flex items-center gap-4 cursor-pointer p-2 rounded-lg hover:bg-parchment/50 transition-colors">
               <div
-                onClick={() => setInfo({ ...info, show_item_images: info.show_item_images !== false })}
+                onClick={() => setInfo({ ...info, show_item_images: !info.show_item_images })}
                 className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0 ${
                   info.show_item_images !== false ? "bg-botanical" : "bg-latte"
                 }`}
@@ -138,6 +140,23 @@ export default function SettingsPage() {
               <div>
                 <span className="block font-sans font-semibold text-espresso text-sm">Fotos de productos al hacer clic</span>
                 <span className="block text-xs text-muted-foreground font-serif italic mt-0.5">Si está activo, los clientes podrán ver fotos de los productos al hacerles clic.</span>
+              </div>
+            </label>
+            <div className="h-px bg-latte/30 my-2" />
+            <label className="flex items-center gap-4 cursor-pointer p-2 rounded-lg hover:bg-parchment/50 transition-colors">
+              <div
+                onClick={() => setInfo({ ...info, show_font_switcher: !info.show_font_switcher })}
+                className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0 ${
+                  info.show_font_switcher !== false ? "bg-botanical" : "bg-latte"
+                }`}
+              >
+                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${
+                  info.show_font_switcher !== false ? "left-7" : "left-1"
+                }`} />
+              </div>
+              <div>
+                <span className="block font-sans font-semibold text-espresso text-sm">Selector de tipografías (público)</span>
+                <span className="block text-xs text-muted-foreground font-serif italic mt-0.5">Si está activo, aparecerá un botón flotante en el menú para que los clientes cambien el estilo de letra.</span>
               </div>
             </label>
             <div className="h-px bg-latte/30 my-2" />

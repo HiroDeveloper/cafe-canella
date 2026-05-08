@@ -108,6 +108,7 @@ async function getMenuData() {
       footer_text: "Precios en pesos colombianos · COP",
       quote_text: '"El café es el lenguaje silencioso de un buen encuentro."',
       hero_image_url: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop',
+      show_font_switcher: true,
       font_settings: {
         title_font: "var(--font-next-serif)",
         tagline_font: "var(--font-next-serif)",
@@ -368,7 +369,7 @@ export default async function PublicMenuPage() {
       </main>
 
       <PQRSButton />
-      <FontSwitcher />
+      {restaurantInfo.show_font_switcher !== false && <FontSwitcher />}
       <a 
         href={`https://wa.me/${restaurantInfo.whatsapp_number}${restaurantInfo.whatsapp_message ? `?text=${encodeURIComponent(restaurantInfo.whatsapp_message)}` : ''}`}
         target="_blank"
