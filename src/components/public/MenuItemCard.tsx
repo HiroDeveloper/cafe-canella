@@ -33,7 +33,10 @@ export default function MenuItemCard({ item, showImage = false }: Props) {
         }`}
       >
         <div className="flex items-baseline gap-2">
-          <h4 className={`font-serif text-base sm:text-lg md:text-xl text-espresso font-semibold leading-tight min-w-0 ${hasImage ? "group-hover:text-botanical transition-colors flex items-center gap-2" : ""}`}>
+          <h4 
+            className={`font-serif text-base sm:text-lg md:text-xl text-espresso font-semibold leading-tight min-w-0 ${hasImage ? "group-hover:text-botanical transition-colors flex items-center gap-2" : ""}`}
+            style={{ fontFamily: item.font_family }}
+          >
             {item.name}
             {hasImage && <ImageIcon size={14} className="text-latte group-hover:text-botanical transition-colors shrink-0" />}
           </h4>
@@ -71,7 +74,12 @@ export default function MenuItemCard({ item, showImage = false }: Props) {
               <img src={item.image_url!} alt={item.name} className="w-full h-full object-cover" />
             </div>
             <div className="p-6 bg-cream text-center space-y-3">
-              <h3 className="font-serif text-2xl font-bold text-espresso leading-tight">{item.name}</h3>
+              <h3 
+                className="font-serif text-2xl font-bold text-espresso leading-tight"
+                style={{ fontFamily: item.font_family }}
+              >
+                {item.name}
+              </h3>
               {item.description && (
                 <p className="font-serif italic text-sm text-muted-foreground">
                   {item.description}

@@ -8,6 +8,7 @@ export type Category = {
   image_url?: string | null;
   sort_order: number;
   is_visible?: boolean;
+  font_family?: string;
 };
 
 export type ItemPrice = {
@@ -26,6 +27,7 @@ export type MenuItem = {
   is_new: boolean;
   tags: string[];
   prices: ItemPrice[];
+  font_family?: string;
 };
 
 export type MenuData = {

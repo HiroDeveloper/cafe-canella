@@ -6,6 +6,7 @@ import {
   Plus, Trash2, Edit3, Save, X, Eye, EyeOff, FolderTree, GripVertical, Check
 } from "lucide-react";
 import ConfirmModal from "@/components/admin/ConfirmModal";
+import FontPicker from "@/components/admin/FontPicker";
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<any[]>([]);
@@ -22,11 +23,11 @@ export default function CategoriesPage() {
 
   // Estado para editar categoría
   const [editingCatId, setEditingCatId] = useState<string | null>(null);
-  const [editCatForm, setEditCatForm] = useState({ name: "", slug: "", group: "", is_visible: true });
-
+  const [editCatForm, setEditCatForm] = useState({ name: "", slug: "", group: "", is_visible: true, font_family: "" });
+  
   // Estado para crear categoría
   const [addingCat, setAddingCat] = useState(false);
-  const [newCatForm, setNewCatForm] = useState({ name: "", slug: "", group: "", is_visible: true });
+  const [newCatForm, setNewCatForm] = useState({ name: "", slug: "", group: "", is_visible: true, font_family: "" });
 
   // Estado para gestionar grupos
   const [editingGroup, setEditingGroup] = useState<string | null>(null);
@@ -317,6 +318,13 @@ export default function CategoriesPage() {
                     {groupNames.map(g => <option key={g} value={g}>{g}</option>)}
                   </select>
                 </div>
+                <div className="space-y-1">
+                  <FontPicker 
+                    label="Tipografía"
+                    value={newCatForm.font_family}
+                    onChange={val => setNewCatForm({ ...newCatForm, font_family: val })}
+                  />
+                </div>
               </div>
               <div className="flex justify-end gap-3">
                 <button onClick={() => setAddingCat(false)} className="px-4 py-2 text-sm font-serif italic text-muted-foreground hover:text-espresso">Cancelar</button>
@@ -372,6 +380,12 @@ export default function CategoriesPage() {
                           >
                             {groupNames.map(g => <option key={g} value={g}>{g}</option>)}
                           </select>
+                          <div className="w-40">
+                            <FontPicker 
+                              value={editCatForm.font_family}
+                              onChange={val => setEditCatForm({ ...editCatForm, font_family: val })}
+                            />
+                          </div>
                           <button onClick={() => handleSaveCat(cat.id)} className="p-1.5 text-botanical hover:bg-botanical/10 rounded shrink-0"><Save size={16} /></button>
                           <button onClick={() => setEditingCatId(null)} className="p-1.5 text-roast hover:bg-roast/10 rounded shrink-0"><X size={16} /></button>
                         </>
@@ -388,7 +402,7 @@ export default function CategoriesPage() {
                             {cat.is_visible ? <Eye size={16} /> : <EyeOff size={16} />}
                           </button>
                           <button
-                            onClick={() => { setEditingCatId(cat.id); setEditCatForm({ name: cat.name, slug: cat.slug, group: cat.group || "General", is_visible: cat.is_visible !== false }); }}
+                            onClick={() => { setEditingCatId(cat.id); setEditCatForm({ name: cat.name, slug: cat.slug, group: cat.group || "General", is_visible: cat.is_visible !== false, font_family: cat.font_family || "" }); }}
                             className="p-1.5 text-espresso/50 hover:text-espresso rounded shrink-0"
                           >
                             <Edit3 size={16} />

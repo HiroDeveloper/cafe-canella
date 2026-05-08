@@ -18,6 +18,7 @@ import {
   ShieldAlert
 } from "lucide-react";
 import ImageUploader from "@/components/admin/ImageUploader";
+import FontPicker from "@/components/admin/FontPicker";
 import { QRCodeSVG } from "qrcode.react";
 
 const FacebookIcon = ({ size = 14, className = "" }: { size?: number, className?: string }) => (
@@ -48,7 +49,14 @@ export default function SettingsPage() {
     facebook_url: "",
     footer_text: "",
     quote_text: "",
-    hero_image_url: ""
+    hero_image_url: "",
+    font_settings: {
+      title_font: "var(--font-next-serif)",
+      tagline_font: "var(--font-next-serif)",
+      schedule_font: "var(--font-next-serif)",
+      address_font: "var(--font-next-serif)",
+      footer_font: "var(--font-next-sans)"
+    }
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -180,6 +188,19 @@ export default function SettingsPage() {
                 </div>
               </div>
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-latte/20">
+                <FontPicker 
+                  label="Tipografía del Nombre"
+                  value={info.font_settings?.title_font}
+                  onChange={(font) => setInfo({...info, font_settings: {...info.font_settings, title_font: font}})}
+                />
+                <FontPicker 
+                  label="Tipografía del Eslogan"
+                  value={info.font_settings?.tagline_font}
+                  onChange={(font) => setInfo({...info, font_settings: {...info.font_settings, tagline_font: font}})}
+                />
+              </div>
+
               <div className="space-y-2">
                 <label className="text-[10px] label-stamp text-latte">Imagen de Fondo (Hero)</label>
                 <div className="bg-parchment rounded-lg border border-latte/50 p-2">
@@ -225,6 +246,13 @@ export default function SettingsPage() {
                   className="w-full bg-parchment border border-latte px-3 py-2 rounded outline-none focus:border-espresso font-sans text-xs"
                   value={info.footer_text}
                   onChange={(e) => setInfo({...info, footer_text: e.target.value})}
+                />
+              </div>
+              <div className="pt-2 border-t border-latte/20">
+                <FontPicker 
+                  label="Tipografía del Footer"
+                  value={info.font_settings?.footer_font}
+                  onChange={(font) => setInfo({...info, font_settings: {...info.font_settings, footer_font: font}})}
                 />
               </div>
             </div>

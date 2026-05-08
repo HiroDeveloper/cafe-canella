@@ -53,14 +53,16 @@ async function getMenuData() {
     if (!itemsByCategory[item.category_id]) itemsByCategory[item.category_id] = [];
     itemsByCategory[item.category_id].push({
       ...item,
-      prices: item.prices.map((p: any) => ({ id: p.id, label: p.label, price: p.price }))
+      prices: item.prices.map((p: any) => ({ id: p.id, label: p.label, price: p.price })),
+      font_family: item.font_family
     });
   });
 
   const visibleCategories = categories.filter(c => c.is_visible !== false);
   const formattedCategories: Category[] = visibleCategories.map(c => ({
     id: c.id, slug: c.slug, name: c.name,
-    group: c.group || "General", sort_order: c.sort_order
+    group: c.group || "General", sort_order: c.sort_order,
+    font_family: c.font_family
   }));
 
   const itemsBySlug: Record<string, MenuItem[]> = {};
@@ -104,7 +106,14 @@ async function getMenuData() {
       facebook_url: "#",
       footer_text: "Precios en pesos colombianos · COP",
       quote_text: '"El café es el lenguaje silencioso de un buen encuentro."',
-      hero_image_url: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop'
+      hero_image_url: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop',
+      font_settings: {
+        title_font: "var(--font-next-serif)",
+        tagline_font: "var(--font-next-serif)",
+        schedule_font: "var(--font-next-serif)",
+        address_font: "var(--font-next-serif)",
+        footer_font: "var(--font-next-sans)"
+      }
     }
   };
 }
@@ -168,13 +177,19 @@ export default async function PublicMenuPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-espresso/60 via-espresso/55 to-espresso/85"></div>
           <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
             <p className="label-stamp text-latte/90 text-[0.65rem] sm:text-xs">Establecido en el aroma del café</p>
-            <h1 className="mt-2 sm:mt-3 font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-cream drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
+            <h1 
+              className="mt-2 sm:mt-3 font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-cream drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]"
+              style={{ fontFamily: restaurantInfo.font_settings?.title_font }}
+            >
               {restaurantInfo.name.split(' ')[0]} <span className="italic font-normal">{restaurantInfo.name.split(' ').slice(1).join(' ')}</span>
             </h1>
             <div className="ornament my-3 sm:my-4 w-full max-w-xs sm:max-w-md">
               <span className="text-latte text-base font-serif">❦</span>
             </div>
-            <p className="max-w-md mx-auto font-serif italic text-cream/90 text-sm sm:text-base px-2">
+            <p 
+              className="max-w-md mx-auto font-serif italic text-cream/90 text-sm sm:text-base px-2"
+              style={{ fontFamily: restaurantInfo.font_settings?.tagline_font }}
+            >
               {restaurantInfo.tagline}
             </p>
             <div className="mt-6 flex items-center justify-center gap-4 sm:gap-6">
@@ -285,7 +300,10 @@ export default async function PublicMenuPage() {
                   className="menu-card p-5 sm:p-7 md:p-9 scroll-mt-24"
                 >
                   <div className="text-center mb-4 sm:mb-5">
-                    <h3 className="font-serif text-xl sm:text-2xl md:text-3xl font-semibold text-espresso">
+                    <h3 
+                      className="font-serif text-xl sm:text-2xl md:text-3xl font-semibold text-espresso"
+                      style={{ fontFamily: cat.font_family }}
+                    >
                       {cat.name}
                     </h3>
                     <div className="ornament mt-3">
@@ -313,7 +331,12 @@ export default async function PublicMenuPage() {
         </div>
 
         <footer className="text-center pb-8 space-y-4">
-          <p className="label-stamp text-roast">{restaurantInfo.footer_text}</p>
+          <p 
+            className="label-stamp text-roast"
+            style={{ fontFamily: restaurantInfo.font_settings?.footer_font }}
+          >
+            {restaurantInfo.footer_text}
+          </p>
           <p className="mt-3 font-serif italic text-muted-foreground">
             {restaurantInfo.quote_text}
           </p>

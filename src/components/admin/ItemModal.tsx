@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { X, Plus, Trash2, Save } from "lucide-react";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import ImageUploader from "./ImageUploader";
+import FontPicker from "./FontPicker";
 
 interface ItemModalProps {
   isOpen: boolean;
@@ -21,6 +22,7 @@ export default function ItemModal({ isOpen, onClose, onSave, item, categories }:
     is_featured: false,
     is_new: false,
     image_url: "",
+    font_family: "",
   });
   const [prices, setPrices] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -35,6 +37,7 @@ export default function ItemModal({ isOpen, onClose, onSave, item, categories }:
         is_featured: item.is_featured || false,
         is_new: item.is_new || false,
         image_url: item.image_url || "",
+        font_family: item.font_family || "",
       });
       setPrices(item.prices?.length > 0 ? item.prices : [{ label: "Precio", price: 0 }]);
     } else {
@@ -45,6 +48,7 @@ export default function ItemModal({ isOpen, onClose, onSave, item, categories }:
         is_featured: false,
         is_new: false,
         image_url: "",
+        font_family: "",
       });
       setPrices([{ label: "Precio", price: 0 }]);
     }
@@ -170,6 +174,12 @@ export default function ItemModal({ isOpen, onClose, onSave, item, categories }:
                   placeholder="Describe el sabor, ingredientes o presentación..."
                 />
               </div>
+
+              <FontPicker 
+                label="Tipografía del Nombre"
+                value={formData.font_family}
+                onChange={(font) => setFormData({ ...formData, font_family: font })}
+              />
 
               {/* Precios */}
               <div className="space-y-2">
