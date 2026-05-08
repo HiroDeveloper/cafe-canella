@@ -203,6 +203,19 @@ export default function SettingsPage() {
                 />
               </div>
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-latte/20">
+                <FontPicker 
+                  label="Tipografía Dirección"
+                  value={info.font_settings?.address_font}
+                  onChange={(font) => setInfo({...info, font_settings: {...info.font_settings, address_font: font}})}
+                />
+                <FontPicker 
+                  label="Tipografía Horario"
+                  value={info.font_settings?.schedule_font}
+                  onChange={(font) => setInfo({...info, font_settings: {...info.font_settings, schedule_font: font}})}
+                />
+              </div>
+
               <div className="space-y-2">
                 <label className="text-[10px] label-stamp text-latte">Imagen de Fondo (Hero)</label>
                 <div className="bg-parchment rounded-lg border border-latte/50 p-2">
@@ -239,6 +252,19 @@ export default function SettingsPage() {
                   className="w-full bg-parchment border border-latte px-3 py-2 rounded outline-none focus:border-espresso font-serif italic text-sm"
                   value={info.quote_text}
                   onChange={(e) => setInfo({...info, quote_text: e.target.value})}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-latte/20">
+                <FontPicker 
+                  label="Tipografía Recomendaciones"
+                  value={info.font_settings?.recommendations_font}
+                  onChange={(font) => setInfo({...info, font_settings: {...info.font_settings, recommendations_font: font}})}
+                />
+                <FontPicker 
+                  label="Tipografía Frase (Quote)"
+                  value={info.font_settings?.quote_font}
+                  onChange={(font) => setInfo({...info, font_settings: {...info.font_settings, quote_font: font}})}
                 />
               </div>
 

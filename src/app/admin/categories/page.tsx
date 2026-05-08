@@ -160,7 +160,7 @@ export default function CategoriesPage() {
       sort_order: categories.length
     }]);
     setAddingCat(false);
-    setNewCatForm({ name: "", slug: "", group: groupNames[0] || "General", is_visible: true });
+    setNewCatForm({ name: "", slug: "", group: groupNames[0] || "General", is_visible: true, font_family: "" });
     fetchAll();
   };
 

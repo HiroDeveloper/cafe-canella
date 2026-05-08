@@ -23,6 +23,7 @@ export default function ItemModal({ isOpen, onClose, onSave, item, categories }:
     is_new: false,
     image_url: "",
     font_family: "",
+    font_family_description: "",
   });
   const [prices, setPrices] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -38,6 +39,7 @@ export default function ItemModal({ isOpen, onClose, onSave, item, categories }:
         is_new: item.is_new || false,
         image_url: item.image_url || "",
         font_family: item.font_family || "",
+        font_family_description: item.font_family_description || "",
       });
       setPrices(item.prices?.length > 0 ? item.prices : [{ label: "Precio", price: 0 }]);
     } else {
@@ -49,6 +51,7 @@ export default function ItemModal({ isOpen, onClose, onSave, item, categories }:
         is_new: false,
         image_url: "",
         font_family: "",
+        font_family_description: "",
       });
       setPrices([{ label: "Precio", price: 0 }]);
     }
@@ -175,11 +178,18 @@ export default function ItemModal({ isOpen, onClose, onSave, item, categories }:
                 />
               </div>
 
-              <FontPicker 
-                label="Tipografía del Nombre"
-                value={formData.font_family}
-                onChange={(font) => setFormData({ ...formData, font_family: font })}
-              />
+              <div className="grid grid-cols-2 gap-4">
+                <FontPicker 
+                  label="Tipografía Nombre"
+                  value={formData.font_family}
+                  onChange={(font) => setFormData({ ...formData, font_family: font })}
+                />
+                <FontPicker 
+                  label="Tipografía Descripción"
+                  value={formData.font_family_description}
+                  onChange={(font) => setFormData({ ...formData, font_family_description: font })}
+                />
+              </div>
 
               {/* Precios */}
               <div className="space-y-2">

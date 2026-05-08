@@ -54,7 +54,8 @@ async function getMenuData() {
     itemsByCategory[item.category_id].push({
       ...item,
       prices: item.prices.map((p: any) => ({ id: p.id, label: p.label, price: p.price })),
-      font_family: item.font_family
+      font_family: item.font_family,
+      font_family_description: item.font_family_description
     });
   });
 
@@ -221,7 +222,12 @@ export default async function PublicMenuPage() {
               </div>
               <div className="text-left">
                 <div className="label-stamp text-roast text-[0.62rem]">Horarios</div>
-                <div className="text-espresso font-serif text-sm">{restaurantInfo.schedule}</div>
+                <div 
+                  className="text-espresso font-serif text-sm"
+                  style={{ fontFamily: restaurantInfo.font_settings?.schedule_font }}
+                >
+                  {restaurantInfo.schedule}
+                </div>
               </div>
             </div>
             <div className="hidden sm:block w-px h-8 bg-latte/50" />
@@ -231,7 +237,12 @@ export default async function PublicMenuPage() {
               </div>
               <div className="text-left">
                 <div className="label-stamp text-roast text-[0.62rem]">Dirección</div>
-                <div className="text-espresso font-serif text-sm">{restaurantInfo.address}</div>
+                <div 
+                  className="text-espresso font-serif text-sm"
+                  style={{ fontFamily: restaurantInfo.font_settings?.address_font }}
+                >
+                  {restaurantInfo.address}
+                </div>
               </div>
             </div>
             <div className="hidden sm:block w-px h-8 bg-latte/50" />
@@ -261,7 +272,11 @@ export default async function PublicMenuPage() {
                 .map((r: string) => r.trim())
                 .filter(Boolean)
                 .map((rec: string, idx: number, arr: string[]) => (
-                  <span key={idx} className="flex items-center gap-x-5">
+                  <span 
+                    key={idx} 
+                    className="flex items-center gap-x-5"
+                    style={{ fontFamily: restaurantInfo.font_settings?.recommendations_font }}
+                  >
                     <span className="font-serif text-lg sm:text-xl text-espresso italic">{rec}</span>
                     {idx < arr.length - 1 && <span className="text-latte hidden sm:inline">✦</span>}
                   </span>
@@ -337,7 +352,10 @@ export default async function PublicMenuPage() {
           >
             {restaurantInfo.footer_text}
           </p>
-          <p className="mt-3 font-serif italic text-muted-foreground">
+          <p 
+            className="mt-3 font-serif italic text-muted-foreground"
+            style={{ fontFamily: restaurantInfo.font_settings?.quote_font }}
+          >
             {restaurantInfo.quote_text}
           </p>
           <p className="mt-6 font-serif text-espresso font-semibold">— {restaurantInfo.name} —</p>

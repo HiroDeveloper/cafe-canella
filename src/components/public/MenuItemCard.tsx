@@ -47,7 +47,10 @@ export default function MenuItemCard({ item, showImage = false }: Props) {
         </div>
         <div className="mt-1.5 flex items-baseline justify-between gap-3">
           {item.description && (
-            <p className="text-xs sm:text-sm text-muted-foreground italic font-serif leading-snug max-w-2xl">
+            <p 
+              className="text-xs sm:text-sm text-muted-foreground italic font-serif leading-snug max-w-2xl"
+              style={{ fontFamily: item.font_family_description }}
+            >
               {item.description}
             </p>
           )}
@@ -81,7 +84,10 @@ export default function MenuItemCard({ item, showImage = false }: Props) {
                 {item.name}
               </h3>
               {item.description && (
-                <p className="font-serif italic text-sm text-muted-foreground">
+                <p 
+                  className="font-serif italic text-sm text-muted-foreground"
+                  style={{ fontFamily: item.font_family_description }}
+                >
                   {item.description}
                 </p>
               )}
