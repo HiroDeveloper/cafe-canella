@@ -84,9 +84,11 @@ export default function SettingsPage() {
     setSaving(true);
     setMessage(null);
 
+    const { id, updated_at, ...updateData } = info;
+
     const { error } = await supabaseAdmin
       .from("restaurant_info")
-      .update(info)
+      .update(updateData)
       .eq("id", 1);
     
     if (error) {
