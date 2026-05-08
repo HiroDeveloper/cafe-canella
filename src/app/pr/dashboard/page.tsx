@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabaseAdmin } from "@/lib/supabase-admin";
-import { Trash2, Search, Filter, CheckCircle, Clock, Trash, ExternalLink, RefreshCcw } from "lucide-react";
+import { Trash2, Search, Filter, CheckCircle, Clock, Trash, ExternalLink, RefreshCcw, MessageSquare } from "lucide-react";
 import ConfirmModal from "@/components/admin/ConfirmModal";
 
 export default function PRDashboardPage() {
