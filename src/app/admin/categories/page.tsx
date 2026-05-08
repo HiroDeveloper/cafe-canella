@@ -287,7 +287,7 @@ export default function CategoriesPage() {
           <div className="flex items-center justify-between">
             <h2 className="label-stamp text-roast">Categorías</h2>
             <button
-              onClick={() => { setNewCatForm({ name: "", slug: "", group: groupNames[0] || "General", is_visible: true }); setAddingCat(true); }}
+              onClick={() => { setNewCatForm({ name: "", slug: "", group: groupNames[0] || "General", is_visible: true, font_family: "" }); setAddingCat(true); }}
               className="flex items-center gap-2 bg-espresso text-cream px-4 py-2 rounded-md hover:bg-roast transition-colors label-stamp text-[10px]"
             >
               <Plus size={14} /> Nueva categoría
