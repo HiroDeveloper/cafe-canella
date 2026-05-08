@@ -1,6 +1,6 @@
 import GroupedCategoryNav from '@/components/public/GroupedCategoryNav';
 import FontSwitcher from '@/components/public/FontSwitcher';
-import PQRSForm from '@/components/public/PQRSForm';
+import PQRSButton from '@/components/public/PQRSButton';
 import MenuItemCard from '@/components/public/MenuItemCard';
 import { supabase } from '@/lib/supabase';
 import { Category, MenuItem } from '@/lib/types';
@@ -349,7 +349,7 @@ export default async function PublicMenuPage() {
         </footer>
       </main>
 
-      <PQRSForm />
+      <PQRSButton />
       <FontSwitcher />
       <a 
         href={`https://wa.me/${restaurantInfo.whatsapp_number}${restaurantInfo.whatsapp_message ? `?text=${encodeURIComponent(restaurantInfo.whatsapp_message)}` : ''}`}
