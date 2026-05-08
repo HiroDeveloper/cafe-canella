@@ -28,6 +28,7 @@ export type MenuItem = {
   tags: string[];
   prices: ItemPrice[];
   font_family?: string;
+  font_family_description?: string;
 };
 
 export type MenuData = {
