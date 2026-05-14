@@ -22,30 +22,36 @@ const WhatsAppIcon = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
-// Emojis as Unicode escapes to avoid encoding issues on Windows
-const E = {
-  coffee:   "\u2615",      // ☕
-  person:   "\uD83D\uDC64", // 👤
-  pin:      "\uD83D\uDCCD", // 📍
-  phone:    "\uD83D\uDCDE", // 📞
-  card:     "\uD83D\uDCB3", // 💳
-  memo:     "\uD83D\uDCDD", // 📝
-  money:    "\uD83D\uDCB0", // 💰
-  clock:    "\uD83D\uDD52", // 🕒
-  banknote: "\uD83D\uDCB5", // 💵
-  bank:     "\uD83C\uDFE6", // 🏦
-};
+// String.fromCodePoint is 100% safe for emoji across all environments/encodings
+const ic = String.fromCodePoint;
+const COFFEE  = ic(0x2615);         // ☕
+const PERSON  = ic(0x1F464);        // 👤
+const PIN     = ic(0x1F4CD);        // 📍
+const PHONE   = ic(0x1F4DE);        // 📞
+const CARD    = ic(0x1F4B3);        // 💳
+const MEMO    = ic(0x1F4DD);        // 📝
+const MONEY   = ic(0x1F4B0);        // 💰
+const CLOCK   = ic(0x1F552);        // 🕒
+const BILL    = ic(0x1F4B5);        // 💵
+const BANK    = ic(0x1F3E6);        // 🏦
 
-const DEFAULT_TEMPLATE =
-  `${E.coffee} NUEVO PEDIDO ${E.coffee}\n\n` +
-  `${E.person} Nombre: {nombre}\n` +
-  `${E.pin} Direcci\u00f3n: {direccion}\n` +
-  `${E.phone} N\u00famero de contacto: {telefono}\n` +
-  `${E.card} M\u00e9todo de pago: {pago}\n\n` +
-  `${E.memo} Pedido:\n{items}\n\n` +
-  `${E.money} Total: {total}\n\n` +
-  `${E.clock} Hora de entrega / recoger: ___________\n\n` +
-  `${E.coffee} \u00a1Gracias por pedir con nosotros!`;
+const DEFAULT_TEMPLATE = [
+  `${COFFEE} NUEVO PEDIDO ${COFFEE}`,
+  ``,
+  `${PERSON} Nombre: {nombre}`,
+  `${PIN} Direcci\u00f3n: {direccion}`,
+  `${PHONE} N\u00famero de contacto: {telefono}`,
+  `${CARD} M\u00e9todo de pago: {pago}`,
+  ``,
+  `${MEMO} Pedido:`,
+  `{items}`,
+  ``,
+  `${MONEY} Total: {total}`,
+  ``,
+  `${CLOCK} Hora de entrega / recoger: ___________`,
+  ``,
+  `${COFFEE} \u00a1Gracias por pedir con nosotros!`,
+].join("\n");
 
 export default function CartModal() {
   const { items, removeItem, updateQty, clearCart, totalPrice, isOpen, setIsOpen, whatsappNumber, cartTemplate } = useCart();
@@ -195,7 +201,7 @@ export default function CartModal() {
               </div>
               <div className="space-y-1">
                 <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                  <Phone size={10} /> N&uacute;mero de contacto
+                  <Phone size={10} /> {"N\u00famero de contacto"}
                 </label>
                 <input
                   required
@@ -209,11 +215,11 @@ export default function CartModal() {
 
             <div className="space-y-1">
               <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                <MapPin size={10} /> Direcci&oacute;n
+                <MapPin size={10} /> {"Direcci\u00f3n"}
               </label>
               <input
                 required
-                placeholder="Tu direcci\u00f3n o escribe 'Recojo en el local'"
+                placeholder={"Tu direcci\u00f3n..."}
                 value={form.direccion}
                 onChange={(e) => setForm({ ...form, direccion: e.target.value })}
                 className="w-full bg-parchment border border-latte rounded-xl px-3 py-2.5 text-espresso text-sm placeholder:text-espresso/30 focus:outline-none focus:ring-2 focus:ring-roast/20 transition-all"
@@ -222,7 +228,7 @@ export default function CartModal() {
 
             <div className="space-y-1">
               <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                <CreditCard size={10} /> M&eacute;todo de pago
+                <CreditCard size={10} /> {"M\u00e9todo de pago"}
               </label>
               <div className="flex gap-3">
                 {["Efectivo", "Transferencia"].map((method) => (
@@ -242,7 +248,7 @@ export default function CartModal() {
                       onChange={() => setForm({ ...form, pago: method })}
                       className="sr-only"
                     />
-                    {method === "Efectivo" ? E.banknote : E.bank} {method}
+                    {method === "Efectivo" ? BILL : BANK} {method}
                   </label>
                 ))}
               </div>
@@ -250,7 +256,7 @@ export default function CartModal() {
 
             <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-serif italic bg-parchment/60 rounded-lg p-2.5 border border-latte/30">
               <Clock size={12} className="text-roast shrink-0" />
-              El tiempo de entrega / recoger se coordinar&aacute; directamente por WhatsApp.
+              {"El tiempo de entrega / recoger se coordinar\u00e1 directamente por WhatsApp."}
             </div>
           </form>
         </div>
