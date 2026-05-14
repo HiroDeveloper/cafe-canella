@@ -69,20 +69,25 @@ export default function CartModal() {
       .replace("{total}", `$${fmt(totalPrice)}`);
 
     const number = whatsappNumber.replace(/\D/g, "");
-    const encoded = injectEmojis(encodeURIComponent(message));
-
-    // On mobile: use whatsapp:// deep link — goes DIRECTLY to the app
-    // without passing through any web server, so no encode/decode corruption.
-    // On desktop: use api.whatsapp.com/send as fallback.
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    const url = isMobile
-      ? `whatsapp://send?phone=${number}&text=${encoded}`
-      : `https://api.whatsapp.com/send?phone=${number}&text=${encoded}`;
 
     const a = document.createElement("a");
-    a.href = url;
-    a.target = isMobile ? "_self" : "_blank";
     a.rel = "noopener noreferrer";
+
+    if (isMobile) {
+      // iOS & Android: whatsapp:// deep link goes directly to the app —
+      // no web server in between, so emoji bytes arrive intact.
+      const encoded = injectEmojis(encodeURIComponent(message));
+      a.href = `whatsapp://send?phone=${number}&text=${encoded}`;
+      a.target = "_self";
+    } else {
+      // Desktop / WhatsApp Web: strip emoji tokens and send plain text.
+      // Emoji encoding through web servers is unreliable on desktop browsers.
+      const plainMessage = message.replace(/_[A-Z]+_/g, "").replace(/  +/g, " ").trim();
+      a.href = `https://api.whatsapp.com/send?phone=${number}&text=${encodeURIComponent(plainMessage)}`;
+      a.target = "_blank";
+    }
+
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
