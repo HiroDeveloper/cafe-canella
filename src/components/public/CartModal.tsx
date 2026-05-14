@@ -10,35 +10,24 @@ const WhatsAppIcon = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
-// ---------------------------------------------------------------------------
-// DEFINITIVE EMOJI FIX
-// Instead of using emoji characters in JS strings (which get corrupted),
-// we use placeholder tokens in the template, encode everything with
-// encodeURIComponent, then replace the encoded placeholders with the
-// pre-computed UTF-8 percent-encodings of each emoji.
-// Underscores are NOT encoded by encodeURIComponent, so _TOKEN_ survives.
-// ---------------------------------------------------------------------------
-
-// Pre-computed UTF-8 percent-encodings — pure ASCII, cannot be corrupted.
+// Emoji placeholder tokens + their UTF-8 percent-encodings.
+// Underscores are NOT encoded by encodeURIComponent so tokens survive.
 const EU: Record<string, string> = {
-  _COFFEE_: "%E2%98%95",     // U+2615  ☕
-  _PERSON_: "%F0%9F%91%A4",  // U+1F464 👤
-  _PIN_:    "%F0%9F%93%8D",  // U+1F4CD 📍
-  _PHONE_:  "%F0%9F%93%9E",  // U+1F4DE 📞
-  _CARD_:   "%F0%9F%92%B3",  // U+1F4B3 💳
-  _MEMO_:   "%F0%9F%93%9D",  // U+1F4DD 📝
-  _MONEY_:  "%F0%9F%92%B0",  // U+1F4B0 💰
-  _CLOCK_:  "%F0%9F%95%92",  // U+1F552 🕒
-  _BILL_:   "%F0%9F%92%B5",  // U+1F4B5 💵
-  _BANK_:   "%F0%9F%8F%A6",  // U+1F3E6 🏦
+  _COFFEE_: "%E2%98%95",    // ☕
+  _PERSON_: "%F0%9F%91%A4", // 👤
+  _PIN_:    "%F0%9F%93%8D", // 📍
+  _PHONE_:  "%F0%9F%93%9E", // 📞
+  _CARD_:   "%F0%9F%92%B3", // 💳
+  _MEMO_:   "%F0%9F%93%9D", // 📝
+  _MONEY_:  "%F0%9F%92%B0", // 💰
+  _CLOCK_:  "%F0%9F%95%92", // 🕒
 };
 
-// Injects emoji URL-encodings directly into an already-encoded URL string.
-function injectEmojis(encoded: string): string {
-  return Object.entries(EU).reduce((s, [token, pct]) => s.replaceAll(token, pct), encoded);
+function injectEmojis(s: string): string {
+  return Object.entries(EU).reduce((acc, [tok, pct]) => acc.replaceAll(tok, pct), s);
 }
 
-// Template uses _TOKEN_ placeholders — plain ASCII, zero encoding issues.
+// Template uses _TOKEN_ placeholders — pure ASCII, zero encoding risk.
 const DEFAULT_TEMPLATE =
   "_COFFEE_ NUEVO PEDIDO _COFFEE_\n\n" +
   "_PERSON_ *Nombre:* {nombre}\n" +
@@ -68,10 +57,8 @@ export default function CartModal() {
       return `  - ${i.quantity}x ${i.menuItem.name}${lbl}: $${fmt(i.selectedPrice.price * i.quantity)}`;
     }).join("\n");
 
-    // Use DB template only when it is non-empty and has no replacement chars
     const base = (cartTemplate && cartTemplate.trim() && !cartTemplate.includes("\uFFFD"))
-      ? cartTemplate
-      : DEFAULT_TEMPLATE;
+      ? cartTemplate : DEFAULT_TEMPLATE;
 
     const message = base
       .replace("{nombre}", form.nombre)
@@ -82,18 +69,14 @@ export default function CartModal() {
       .replace("{total}", `$${fmt(totalPrice)}`);
 
     const number = whatsappNumber.replace(/\D/g, "");
-    // encodeURIComponent encodes all special chars EXCEPT _underscores_
-    // so our _TOKEN_ placeholders survive, then we replace them with emoji %XX
-    const encoded = injectEmojis(encodeURIComponent(message));
-    const url = "https://wa.me/" + number + "?text=" + encoded;
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    // KEY FIX: use api.whatsapp.com/send DIRECTLY — bypasses the wa.me
+    // redirect which was decoding %E2%98%95 (☕) and re-encoding as
+    // %EF%BF%BD (U+FFFD replacement character), corrupting all emojis.
+    const encoded = injectEmojis(encodeURIComponent(message));
+    const url = "https://api.whatsapp.com/send?phone=" + number + "&text=" + encoded;
+
+    window.open(url, "_blank", "noopener,noreferrer");
 
     clearCart();
     setIsOpen(false);
@@ -128,8 +111,7 @@ export default function CartModal() {
                   className="flex items-center gap-3 bg-parchment/50 rounded-xl px-4 py-3 border border-latte/40">
                   <div className="flex-1 min-w-0">
                     <p className="font-serif text-sm font-semibold text-espresso truncate">
-                      {item.menuItem.name}
-                      <span className="font-normal text-muted-foreground text-xs">{lbl}</span>
+                      {item.menuItem.name}<span className="font-normal text-muted-foreground text-xs">{lbl}</span>
                     </p>
                     <p className="text-xs text-roast font-semibold mt-0.5">${fmt(item.selectedPrice.price)} c/u</p>
                   </div>
@@ -162,9 +144,7 @@ export default function CartModal() {
           </div>
 
           <form id="cart-whatsapp-form" onSubmit={handleSend} className="px-5 pb-6 space-y-4 border-t border-latte/40 pt-4">
-            <h3 className="label-stamp text-roast text-[0.65rem] flex items-center gap-2">
-              <Send size={12} /> Datos para el pedido
-            </h3>
+            <h3 className="label-stamp text-roast text-[0.65rem] flex items-center gap-2"><Send size={12} /> Datos para el pedido</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1">
                 <label className="text-[10px] label-stamp text-latte flex items-center gap-1"><User size={10} /> Nombre</label>
@@ -180,13 +160,13 @@ export default function CartModal() {
               </div>
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] label-stamp text-latte flex items-center gap-1"><MapPin size={10} /> Direcci{"\u00f3"}n</label>
-              <input required placeholder={"Tu direcci\u00f3n..."} value={form.direccion}
+              <label className="text-[10px] label-stamp text-latte flex items-center gap-1"><MapPin size={10} /> {`Direcci\u00f3n`}</label>
+              <input required placeholder={`Tu direcci\u00f3n...`} value={form.direccion}
                 onChange={(e) => setForm({ ...form, direccion: e.target.value })}
                 className="w-full bg-parchment border border-latte rounded-xl px-3 py-2.5 text-espresso text-sm placeholder:text-espresso/30 focus:outline-none focus:ring-2 focus:ring-roast/20 transition-all" />
             </div>
             <div className="space-y-1">
-              <label className="text-[10px] label-stamp text-latte flex items-center gap-1"><CreditCard size={10} /> M{"\u00e9"}todo de pago</label>
+              <label className="text-[10px] label-stamp text-latte flex items-center gap-1"><CreditCard size={10} /> {`M\u00e9todo de pago`}</label>
               <div className="flex gap-3">
                 {(["Efectivo", "Transferencia"] as const).map((method) => (
                   <label key={method} className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border cursor-pointer transition-all text-sm font-serif ${form.pago === method ? "bg-espresso text-cream border-espresso" : "bg-parchment border-latte text-espresso hover:border-roast"}`}>
@@ -198,7 +178,7 @@ export default function CartModal() {
             </div>
             <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-serif italic bg-parchment/60 rounded-lg p-2.5 border border-latte/30">
               <Clock size={12} className="text-roast shrink-0" />
-              El tiempo de entrega se coordinar{"\u00e1"} por WhatsApp.
+              {`El tiempo de entrega se coordinar\u00e1 directamente por WhatsApp.`}
             </div>
           </form>
         </div>
