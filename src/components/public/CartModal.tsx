@@ -2,17 +2,8 @@
 
 import { useState } from "react";
 import {
-  X,
-  Trash2,
-  Plus,
-  Minus,
-  ShoppingCart,
-  Send,
-  User,
-  MapPin,
-  Phone,
-  CreditCard,
-  Clock,
+  X, Trash2, Plus, Minus,
+  ShoppingCart, Send, User, MapPin, Phone, CreditCard, Clock,
 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
@@ -22,76 +13,69 @@ const WhatsAppIcon = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
-// String.fromCodePoint is 100% safe for emoji across all environments/encodings
-const ic = String.fromCodePoint;
-const COFFEE  = ic(0x2615);         // ☕
-const PERSON  = ic(0x1F464);        // 👤
-const PIN     = ic(0x1F4CD);        // 📍
-const PHONE   = ic(0x1F4DE);        // 📞
-const CARD    = ic(0x1F4B3);        // 💳
-const MEMO    = ic(0x1F4DD);        // 📝
-const MONEY   = ic(0x1F4B0);        // 💰
-const CLOCK   = ic(0x1F552);        // 🕒
-const BILL    = ic(0x1F4B5);        // 💵
-const BANK    = ic(0x1F3E6);        // 🏦
+// Build emojis at runtime via codepoints — immune to file encoding issues
+function cp(...pts: number[]) { return String.fromCodePoint(...pts); }
+const EM = {
+  coffee : cp(0x2615),
+  person : cp(0x1F464),
+  pin    : cp(0x1F4CD),
+  phone  : cp(0x1F4DE),
+  card   : cp(0x1F4B3),
+  memo   : cp(0x1F4DD),
+  money  : cp(0x1F4B0),
+  clock  : cp(0x1F552),
+  bill   : cp(0x1F4B5),
+  bank   : cp(0x1F3E6),
+};
 
-const DEFAULT_TEMPLATE = [
-  `${COFFEE} NUEVO PEDIDO ${COFFEE}`,
-  ``,
-  `${PERSON} Nombre: {nombre}`,
-  `${PIN} Direcci\u00f3n: {direccion}`,
-  `${PHONE} N\u00famero de contacto: {telefono}`,
-  `${CARD} M\u00e9todo de pago: {pago}`,
-  ``,
-  `${MEMO} Pedido:`,
-  `{items}`,
-  ``,
-  `${MONEY} Total: {total}`,
-  ``,
-  `${CLOCK} Hora de entrega / recoger: ___________`,
-  ``,
-  `${COFFEE} \u00a1Gracias por pedir con nosotros!`,
-].join("\n");
+function buildDefaultTemplate(): string {
+  return (
+    `${EM.coffee} NUEVO PEDIDO ${EM.coffee}\n\n` +
+    `${EM.person} Nombre: {nombre}\n` +
+    `${EM.pin} Direcci${cp(0xF3)}n: {direccion}\n` +
+    `${EM.phone} N${cp(0xFA)}mero de contacto: {telefono}\n` +
+    `${EM.card} M${cp(0xE9)}todo de pago: {pago}\n\n` +
+    `${EM.memo} Pedido:\n{items}\n\n` +
+    `${EM.money} Total: {total}\n\n` +
+    `${EM.clock} Hora de entrega / recoger: ___________\n\n` +
+    `${EM.coffee} ${cp(0xA1)}Gracias por pedir con nosotros!`
+  );
+}
 
 export default function CartModal() {
-  const { items, removeItem, updateQty, clearCart, totalPrice, isOpen, setIsOpen, whatsappNumber, cartTemplate } = useCart();
+  const {
+    items, removeItem, updateQty, clearCart,
+    totalPrice, isOpen, setIsOpen,
+    whatsappNumber, cartTemplate,
+  } = useCart();
 
-  const [form, setForm] = useState({
-    nombre: "",
-    direccion: "",
-    telefono: "",
-    pago: "Efectivo",
-  });
+  const [form, setForm] = useState({ nombre: "", direccion: "", telefono: "", pago: "Efectivo" });
 
   if (!isOpen) return null;
 
-  const formatCOP = (n: number) =>
+  const fmt = (n: number) =>
     new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 })
-      .format(n)
-      .replace("COP", "")
-      .trim();
+      .format(n).replace("COP", "").trim();
 
   const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const itemsText = items
-      .map((i) => {
-        const label = i.selectedPrice.label !== "Precio" ? ` (${i.selectedPrice.label})` : "";
-        return `  \u2022 ${i.quantity}x ${i.menuItem.name}${label} \u2014 $${formatCOP(i.selectedPrice.price * i.quantity)}`;
-      })
-      .join("\n");
+    const itemsText = items.map((i) => {
+      const lbl = i.selectedPrice.label !== "Precio" ? ` (${i.selectedPrice.label})` : "";
+      return `  ${cp(0x2022)} ${i.quantity}x ${i.menuItem.name}${lbl} ${cp(0x2014)} $${fmt(i.selectedPrice.price * i.quantity)}`;
+    }).join("\n");
 
-    const template = (cartTemplate || DEFAULT_TEMPLATE)
+    const base = (cartTemplate && cartTemplate.trim()) ? cartTemplate : buildDefaultTemplate();
+    const message = base
       .replace("{nombre}", form.nombre)
       .replace("{direccion}", form.direccion)
       .replace("{telefono}", form.telefono)
       .replace("{pago}", form.pago)
       .replace("{items}", itemsText)
-      .replace("{total}", `$${formatCOP(totalPrice)}`);
+      .replace("{total}", `$${fmt(totalPrice)}`);
 
-    const encoded = encodeURIComponent(template);
     const number = whatsappNumber.replace(/\D/g, "");
-    window.open(`https://wa.me/${number}?text=${encoded}`, "_blank", "noopener,noreferrer");
+    window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
 
     clearCart();
     setIsOpen(false);
@@ -101,6 +85,7 @@ export default function CartModal() {
   return (
     <div className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center bg-espresso/60 backdrop-blur-md animate-in fade-in duration-200">
       <div className="menu-card w-full sm:max-w-xl max-h-[95dvh] overflow-hidden flex flex-col animate-in slide-in-from-bottom-6 sm:zoom-in-95 duration-300 sm:m-4">
+
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-latte">
           <div className="flex items-center gap-3">
@@ -109,63 +94,48 @@ export default function CartModal() {
             </div>
             <div>
               <h2 className="font-serif font-bold text-espresso text-lg leading-tight">Mi Pedido</h2>
-              <p className="text-[10px] label-stamp text-roast">{items.length} producto{items.length !== 1 ? "s" : ""}</p>
+              <p className="text-[10px] label-stamp text-roast">
+                {items.length} producto{items.length !== 1 ? "s" : ""}
+              </p>
             </div>
           </div>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="p-2 hover:bg-parchment rounded-full transition-colors text-espresso/60 hover:text-espresso"
-          >
+          <button onClick={() => setIsOpen(false)} className="p-2 hover:bg-parchment rounded-full transition-colors text-espresso/60 hover:text-espresso">
             <X size={20} />
           </button>
         </div>
 
         <div className="overflow-y-auto flex-1">
-          {/* Items list */}
+
+          {/* Items */}
           <div className="px-5 py-4 space-y-3">
             {items.map((item) => {
-              const label = item.selectedPrice.label !== "Precio" ? ` \u00b7 ${item.selectedPrice.label}` : "";
+              const lbl = item.selectedPrice.label !== "Precio" ? ` ${cp(0xB7)} ${item.selectedPrice.label}` : "";
               return (
-                <div
-                  key={`${item.menuItem.id}-${item.selectedPrice.id}`}
-                  className="flex items-center gap-3 bg-parchment/50 rounded-xl px-4 py-3 border border-latte/40"
-                >
+                <div key={`${item.menuItem.id}-${item.selectedPrice.id}`}
+                  className="flex items-center gap-3 bg-parchment/50 rounded-xl px-4 py-3 border border-latte/40">
                   <div className="flex-1 min-w-0">
                     <p className="font-serif text-sm font-semibold text-espresso truncate">
                       {item.menuItem.name}
-                      <span className="font-normal text-muted-foreground text-xs">{label}</span>
+                      <span className="font-normal text-muted-foreground text-xs">{lbl}</span>
                     </p>
-                    <p className="text-xs text-roast font-semibold mt-0.5">
-                      ${formatCOP(item.selectedPrice.price)} c/u
-                    </p>
+                    <p className="text-xs text-roast font-semibold mt-0.5">${fmt(item.selectedPrice.price)} c/u</p>
                   </div>
-
                   <div className="flex items-center gap-1.5 shrink-0">
-                    <button
-                      onClick={() => updateQty(item.menuItem.id, item.selectedPrice.id, -1)}
-                      className="h-7 w-7 grid place-items-center rounded-full border border-latte bg-cream hover:bg-espresso hover:text-cream transition-colors"
-                    >
+                    <button onClick={() => updateQty(item.menuItem.id, item.selectedPrice.id, -1)}
+                      className="h-7 w-7 grid place-items-center rounded-full border border-latte bg-cream hover:bg-espresso hover:text-cream transition-colors">
                       <Minus size={12} />
                     </button>
-                    <span className="w-5 text-center font-bold text-sm text-espresso tabular-nums">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() => updateQty(item.menuItem.id, item.selectedPrice.id, 1)}
-                      className="h-7 w-7 grid place-items-center rounded-full border border-latte bg-cream hover:bg-espresso hover:text-cream transition-colors"
-                    >
+                    <span className="w-5 text-center font-bold text-sm text-espresso tabular-nums">{item.quantity}</span>
+                    <button onClick={() => updateQty(item.menuItem.id, item.selectedPrice.id, 1)}
+                      className="h-7 w-7 grid place-items-center rounded-full border border-latte bg-cream hover:bg-espresso hover:text-cream transition-colors">
                       <Plus size={12} />
                     </button>
                   </div>
-
                   <p className="w-16 text-right font-serif text-sm font-bold text-espresso tabular-nums shrink-0">
-                    ${formatCOP(item.selectedPrice.price * item.quantity)}
+                    ${fmt(item.selectedPrice.price * item.quantity)}
                   </p>
-
-                  <button
-                    onClick={() => removeItem(item.menuItem.id, item.selectedPrice.id)}
-                    className="p-1.5 text-latte hover:text-roast transition-colors shrink-0"
-                  >
+                  <button onClick={() => removeItem(item.menuItem.id, item.selectedPrice.id)}
+                    className="p-1.5 text-latte hover:text-roast transition-colors shrink-0">
                     <Trash2 size={14} />
                   </button>
                 </div>
@@ -173,17 +143,16 @@ export default function CartModal() {
             })}
           </div>
 
-          {/* Total bar */}
+          {/* Total */}
           <div className="mx-5 mb-4 px-4 py-3 bg-espresso text-cream rounded-xl flex justify-between items-center">
             <span className="label-stamp text-cream/80 text-[0.65rem]">Total estimado</span>
-            <span className="font-serif text-xl font-bold tabular-nums">${formatCOP(totalPrice)}</span>
+            <span className="font-serif text-xl font-bold tabular-nums">${fmt(totalPrice)}</span>
           </div>
 
-          {/* Order form */}
+          {/* Form */}
           <form id="cart-whatsapp-form" onSubmit={handleSend} className="px-5 pb-6 space-y-4 border-t border-latte/40 pt-4">
             <h3 className="label-stamp text-roast text-[0.65rem] flex items-center gap-2">
-              <Send size={12} />
-              Datos para el pedido
+              <Send size={12} /> Datos para el pedido
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -191,64 +160,42 @@ export default function CartModal() {
                 <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
                   <User size={10} /> Nombre
                 </label>
-                <input
-                  required
-                  placeholder="Tu nombre..."
-                  value={form.nombre}
+                <input required placeholder="Tu nombre..." value={form.nombre}
                   onChange={(e) => setForm({ ...form, nombre: e.target.value })}
-                  className="w-full bg-parchment border border-latte rounded-xl px-3 py-2.5 text-espresso text-sm placeholder:text-espresso/30 focus:outline-none focus:ring-2 focus:ring-roast/20 transition-all"
-                />
+                  className="w-full bg-parchment border border-latte rounded-xl px-3 py-2.5 text-espresso text-sm placeholder:text-espresso/30 focus:outline-none focus:ring-2 focus:ring-roast/20 transition-all" />
               </div>
               <div className="space-y-1">
                 <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                  <Phone size={10} /> {"N\u00famero de contacto"}
+                  <Phone size={10} /> {`N${cp(0xFA)}mero de contacto`}
                 </label>
-                <input
-                  required
-                  placeholder="Ej: 310 0000000"
-                  value={form.telefono}
+                <input required placeholder="Ej: 310 0000000" value={form.telefono}
                   onChange={(e) => setForm({ ...form, telefono: e.target.value })}
-                  className="w-full bg-parchment border border-latte rounded-xl px-3 py-2.5 text-espresso text-sm placeholder:text-espresso/30 focus:outline-none focus:ring-2 focus:ring-roast/20 transition-all"
-                />
+                  className="w-full bg-parchment border border-latte rounded-xl px-3 py-2.5 text-espresso text-sm placeholder:text-espresso/30 focus:outline-none focus:ring-2 focus:ring-roast/20 transition-all" />
               </div>
             </div>
 
             <div className="space-y-1">
               <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                <MapPin size={10} /> {"Direcci\u00f3n"}
+                <MapPin size={10} /> {`Direcci${cp(0xF3)}n`}
               </label>
-              <input
-                required
-                placeholder={"Tu direcci\u00f3n..."}
-                value={form.direccion}
+              <input required placeholder={`Tu direcci${cp(0xF3)}n...`} value={form.direccion}
                 onChange={(e) => setForm({ ...form, direccion: e.target.value })}
-                className="w-full bg-parchment border border-latte rounded-xl px-3 py-2.5 text-espresso text-sm placeholder:text-espresso/30 focus:outline-none focus:ring-2 focus:ring-roast/20 transition-all"
-              />
+                className="w-full bg-parchment border border-latte rounded-xl px-3 py-2.5 text-espresso text-sm placeholder:text-espresso/30 focus:outline-none focus:ring-2 focus:ring-roast/20 transition-all" />
             </div>
 
             <div className="space-y-1">
               <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                <CreditCard size={10} /> {"M\u00e9todo de pago"}
+                <CreditCard size={10} /> {`M${cp(0xE9)}todo de pago`}
               </label>
               <div className="flex gap-3">
-                {["Efectivo", "Transferencia"].map((method) => (
-                  <label
-                    key={method}
+                {(["Efectivo", "Transferencia"] as const).map((method) => (
+                  <label key={method}
                     className={`flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border cursor-pointer transition-all text-sm font-serif ${
-                      form.pago === method
-                        ? "bg-espresso text-cream border-espresso"
-                        : "bg-parchment border-latte text-espresso hover:border-roast"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="pago"
-                      value={method}
-                      checked={form.pago === method}
-                      onChange={() => setForm({ ...form, pago: method })}
-                      className="sr-only"
-                    />
-                    {method === "Efectivo" ? BILL : BANK} {method}
+                      form.pago === method ? "bg-espresso text-cream border-espresso" : "bg-parchment border-latte text-espresso hover:border-roast"
+                    }`}>
+                    <input type="radio" name="pago" value={method} checked={form.pago === method}
+                      onChange={() => setForm({ ...form, pago: method })} className="sr-only" />
+                    {method === "Efectivo" ? EM.bill : EM.bank} {method}
                   </label>
                 ))}
               </div>
@@ -256,25 +203,19 @@ export default function CartModal() {
 
             <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-serif italic bg-parchment/60 rounded-lg p-2.5 border border-latte/30">
               <Clock size={12} className="text-roast shrink-0" />
-              {"El tiempo de entrega / recoger se coordinar\u00e1 directamente por WhatsApp."}
+              El tiempo de entrega se coordinar{cp(0xE1)} directamente por WhatsApp.
             </div>
           </form>
         </div>
 
         {/* Footer */}
         <div className="px-5 py-4 border-t border-latte bg-cream flex gap-3">
-          <button
-            type="button"
-            onClick={() => { clearCart(); setIsOpen(false); }}
-            className="flex-1 py-3 rounded-xl border border-latte text-espresso font-serif text-sm hover:bg-parchment transition-colors"
-          >
+          <button type="button" onClick={() => { clearCart(); setIsOpen(false); }}
+            className="flex-1 py-3 rounded-xl border border-latte text-espresso font-serif text-sm hover:bg-parchment transition-colors">
             Vaciar
           </button>
-          <button
-            type="submit"
-            form="cart-whatsapp-form"
-            className="flex-1 flex items-center justify-center gap-2.5 py-3 rounded-xl bg-[#25D366] text-white font-serif font-bold text-base hover:bg-[#20b558] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md"
-          >
+          <button type="submit" form="cart-whatsapp-form"
+            className="flex-1 flex items-center justify-center gap-2.5 py-3 rounded-xl bg-[#25D366] text-white font-serif font-bold text-base hover:bg-[#20b558] hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md">
             <WhatsAppIcon size={20} />
             Enviar Pedido
           </button>
