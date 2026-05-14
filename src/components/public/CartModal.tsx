@@ -22,21 +22,30 @@ const WhatsAppIcon = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
-const DEFAULT_TEMPLATE = `☕ NUEVO PEDIDO ☕
+// Emojis as Unicode escapes to avoid encoding issues on Windows
+const E = {
+  coffee:   "\u2615",      // ☕
+  person:   "\uD83D\uDC64", // 👤
+  pin:      "\uD83D\uDCCD", // 📍
+  phone:    "\uD83D\uDCDE", // 📞
+  card:     "\uD83D\uDCB3", // 💳
+  memo:     "\uD83D\uDCDD", // 📝
+  money:    "\uD83D\uDCB0", // 💰
+  clock:    "\uD83D\uDD52", // 🕒
+  banknote: "\uD83D\uDCB5", // 💵
+  bank:     "\uD83C\uDFE6", // 🏦
+};
 
-👤 Nombre: {nombre}
-📍 Dirección: {direccion}
-📞 Número de contacto: {telefono}
-💳 Método de pago: {pago}
-
-📝 Pedido:
-{items}
-
-💰 Total: {total}
-
-🕒 Hora de entrega / recoger: ___________
-
-☕ ¡Gracias por pedir con nosotros!`;
+const DEFAULT_TEMPLATE =
+  `${E.coffee} NUEVO PEDIDO ${E.coffee}\n\n` +
+  `${E.person} Nombre: {nombre}\n` +
+  `${E.pin} Direcci\u00f3n: {direccion}\n` +
+  `${E.phone} N\u00famero de contacto: {telefono}\n` +
+  `${E.card} M\u00e9todo de pago: {pago}\n\n` +
+  `${E.memo} Pedido:\n{items}\n\n` +
+  `${E.money} Total: {total}\n\n` +
+  `${E.clock} Hora de entrega / recoger: ___________\n\n` +
+  `${E.coffee} \u00a1Gracias por pedir con nosotros!`;
 
 export default function CartModal() {
   const { items, removeItem, updateQty, clearCart, totalPrice, isOpen, setIsOpen, whatsappNumber, cartTemplate } = useCart();
@@ -62,7 +71,7 @@ export default function CartModal() {
     const itemsText = items
       .map((i) => {
         const label = i.selectedPrice.label !== "Precio" ? ` (${i.selectedPrice.label})` : "";
-        return `  • ${i.quantity}x ${i.menuItem.name}${label} — $${formatCOP(i.selectedPrice.price * i.quantity)}`;
+        return `  \u2022 ${i.quantity}x ${i.menuItem.name}${label} \u2014 $${formatCOP(i.selectedPrice.price * i.quantity)}`;
       })
       .join("\n");
 
@@ -109,7 +118,7 @@ export default function CartModal() {
           {/* Items list */}
           <div className="px-5 py-4 space-y-3">
             {items.map((item) => {
-              const label = item.selectedPrice.label !== "Precio" ? ` · ${item.selectedPrice.label}` : "";
+              const label = item.selectedPrice.label !== "Precio" ? ` \u00b7 ${item.selectedPrice.label}` : "";
               return (
                 <div
                   key={`${item.menuItem.id}-${item.selectedPrice.id}`}
@@ -186,7 +195,7 @@ export default function CartModal() {
               </div>
               <div className="space-y-1">
                 <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                  <Phone size={10} /> Número de contacto
+                  <Phone size={10} /> N&uacute;mero de contacto
                 </label>
                 <input
                   required
@@ -200,11 +209,11 @@ export default function CartModal() {
 
             <div className="space-y-1">
               <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                <MapPin size={10} /> Dirección / Punto de recogida
+                <MapPin size={10} /> Direcci&oacute;n / Punto de recogida
               </label>
               <input
                 required
-                placeholder="Tu dirección o escribe 'Recojo en el local'"
+                placeholder="Tu direcci\u00f3n o escribe 'Recojo en el local'"
                 value={form.direccion}
                 onChange={(e) => setForm({ ...form, direccion: e.target.value })}
                 className="w-full bg-parchment border border-latte rounded-xl px-3 py-2.5 text-espresso text-sm placeholder:text-espresso/30 focus:outline-none focus:ring-2 focus:ring-roast/20 transition-all"
@@ -213,7 +222,7 @@ export default function CartModal() {
 
             <div className="space-y-1">
               <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                <CreditCard size={10} /> Método de pago
+                <CreditCard size={10} /> M&eacute;todo de pago
               </label>
               <div className="flex gap-3">
                 {["Efectivo", "Transferencia"].map((method) => (
@@ -233,7 +242,7 @@ export default function CartModal() {
                       onChange={() => setForm({ ...form, pago: method })}
                       className="sr-only"
                     />
-                    {method === "Efectivo" ? "💵" : "🏦"} {method}
+                    {method === "Efectivo" ? E.banknote : E.bank} {method}
                   </label>
                 ))}
               </div>
@@ -241,7 +250,7 @@ export default function CartModal() {
 
             <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-serif italic bg-parchment/60 rounded-lg p-2.5 border border-latte/30">
               <Clock size={12} className="text-roast shrink-0" />
-              El tiempo de entrega / recoger se coordinará directamente por WhatsApp.
+              El tiempo de entrega / recoger se coordinar&aacute; directamente por WhatsApp.
             </div>
           </form>
         </div>
