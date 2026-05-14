@@ -13,21 +13,52 @@ const WhatsAppIcon = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
-// Default template uses only ASCII + WhatsApp *bold* formatting.
-// No emojis in code — they get corrupted by the file system.
-// Admin can add emojis via the settings template editor (pasted from phone).
-const DEFAULT_TEMPLATE =
-  "*NUEVO PEDIDO*\n" +
-  "--------------------------------\n\n" +
-  "*Nombre:* {nombre}\n" +
-  "*Direccion:* {direccion}\n" +
-  "*Contacto:* {telefono}\n" +
-  "*Metodo de pago:* {pago}\n\n" +
-  "*Pedido:*\n" +
-  "{items}\n\n" +
-  "*Total: {total}*\n\n" +
-  "*Hora de entrega / recoger:* __________\n\n" +
-  "Gracias por pedir con nosotros!";
+// ---------------------------------------------------------------------------
+// Emoji builder — generates characters at runtime from Unicode codepoints.
+// This is immune to file-system encoding issues (no literal chars in source).
+// ---------------------------------------------------------------------------
+function cp(...pts: number[]): string {
+  return String.fromCodePoint(...pts);
+}
+
+const EM = {
+  coffee : cp(0x2615),   // ☕
+  person : cp(0x1F464),  // 👤
+  pin    : cp(0x1F4CD),  // 📍
+  phone  : cp(0x1F4DE),  // 📞
+  card   : cp(0x1F4B3),  // 💳
+  memo   : cp(0x1F4DD),  // 📝
+  money  : cp(0x1F4B0),  // 💰
+  clock  : cp(0x1F552),  // 🕒
+  bill   : cp(0x1F4B5),  // 💵
+  bank   : cp(0x1F3E6),  // 🏦
+};
+
+// Detects replacement characters — sign of corrupted emoji in a DB value.
+function isCorrupted(s: string): boolean {
+  return s.includes("\uFFFD") || /\?{2,}/.test(s);
+}
+
+// Builds the default message template entirely from runtime codepoints.
+function buildDefaultTemplate(): string {
+  const o  = cp(0xF3);  // ó
+  const u  = cp(0xFA);  // ú
+  const e9 = cp(0xE9);  // é
+  const a1 = cp(0xA1);  // ¡
+  return (
+    `${EM.coffee} NUEVO PEDIDO ${EM.coffee}\n\n` +
+    `${EM.person} *Nombre:* {nombre}\n` +
+    `${EM.pin} *Direcci${o}n:* {direccion}\n` +
+    `${EM.phone} *N${u}mero de contacto:* {telefono}\n` +
+    `${EM.card} *M${e9}todo de pago:* {pago}\n\n` +
+    `${EM.memo} *Pedido:*\n{items}\n\n` +
+    `${EM.money} *Total: {total}*\n\n` +
+    `${EM.clock} *Hora de entrega / recoger:* __________\n\n` +
+    `${EM.coffee} ${a1}Gracias por pedir con nosotros!`
+  );
+}
+
+// ---------------------------------------------------------------------------
 
 export default function CartModal() {
   const {
@@ -36,13 +67,16 @@ export default function CartModal() {
     whatsappNumber, cartTemplate,
   } = useCart();
 
-  const [form, setForm] = useState({ nombre: "", direccion: "", telefono: "", pago: "Efectivo" });
+  const [form, setForm] = useState({
+    nombre: "", direccion: "", telefono: "", pago: "Efectivo",
+  });
 
   if (!isOpen) return null;
 
   const fmt = (n: number) =>
-    new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 })
-      .format(n).replace("COP", "").trim();
+    new Intl.NumberFormat("es-CO", {
+      style: "currency", currency: "COP", maximumFractionDigits: 0,
+    }).format(n).replace("COP", "").trim();
 
   const handleSend = (ev: React.FormEvent) => {
     ev.preventDefault();
@@ -52,7 +86,12 @@ export default function CartModal() {
       return `  - ${i.quantity}x ${i.menuItem.name}${lbl}: $${fmt(i.selectedPrice.price * i.quantity)}`;
     }).join("\n");
 
-    const base = (cartTemplate && cartTemplate.trim()) ? cartTemplate : DEFAULT_TEMPLATE;
+    // Use DB template only when it is non-empty AND not corrupted.
+    const base =
+      cartTemplate && cartTemplate.trim() && !isCorrupted(cartTemplate)
+        ? cartTemplate
+        : buildDefaultTemplate();
+
     const message = base
       .replace("{nombre}", form.nombre)
       .replace("{direccion}", form.direccion)
@@ -171,16 +210,16 @@ export default function CartModal() {
 
             <div className="space-y-1">
               <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                <MapPin size={10} /> Direccion
+                <MapPin size={10} /> {cp(0x44, 0x69, 0x72, 0x65, 0x63, 0x63, 0x69, 0xF3, 0x6E)}
               </label>
-              <input required placeholder="Tu direccion..." value={form.direccion}
+              <input required placeholder={cp(0x54, 0x75, 0x20, 0x64, 0x69, 0x72, 0x65, 0x63, 0x63, 0x69, 0xF3, 0x6E, 0x2E, 0x2E, 0x2E)} value={form.direccion}
                 onChange={(e) => setForm({ ...form, direccion: e.target.value })}
                 className="w-full bg-parchment border border-latte rounded-xl px-3 py-2.5 text-espresso text-sm placeholder:text-espresso/30 focus:outline-none focus:ring-2 focus:ring-roast/20 transition-all" />
             </div>
 
             <div className="space-y-1">
               <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                <CreditCard size={10} /> Metodo de pago
+                <CreditCard size={10} /> {cp(0x4D, 0xE9, 0x74, 0x6F, 0x64, 0x6F, 0x20, 0x64, 0x65, 0x20, 0x70, 0x61, 0x67, 0x6F)}
               </label>
               <div className="flex gap-3">
                 {(["Efectivo", "Transferencia"] as const).map((method) => (
@@ -190,7 +229,7 @@ export default function CartModal() {
                     }`}>
                     <input type="radio" name="pago" value={method} checked={form.pago === method}
                       onChange={() => setForm({ ...form, pago: method })} className="sr-only" />
-                    {method}
+                    {method === "Efectivo" ? EM.bill : EM.bank} {method}
                   </label>
                 ))}
               </div>
@@ -198,7 +237,7 @@ export default function CartModal() {
 
             <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-serif italic bg-parchment/60 rounded-lg p-2.5 border border-latte/30">
               <Clock size={12} className="text-roast shrink-0" />
-              El tiempo de entrega se coordinara directamente por WhatsApp.
+              El tiempo de entrega se coordinar{cp(0xE1)} directamente por WhatsApp.
             </div>
           </form>
         </div>

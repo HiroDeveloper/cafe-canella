@@ -136,7 +136,10 @@ export default async function PublicMenuPage() {
   const { categories, itemsByCategory, groupedCategories, restaurantInfo } = await getMenuData();
 
   const showCart = restaurantInfo.show_whatsapp_cart !== false && !!restaurantInfo.whatsapp_number;
-  const cartTemplate = restaurantInfo.cart_message_template || '';
+  // Always use '' so CartModal builds the template via String.fromCodePoint().
+  // The DB value may contain emojis corrupted by the file-system encoding;
+  // this ensures the emoji-safe runtime template is always used.
+  const cartTemplate = '';
 
   if (restaurantInfo.is_closed) {
     return (
