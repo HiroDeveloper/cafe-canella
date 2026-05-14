@@ -13,34 +13,21 @@ const WhatsAppIcon = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
-// Build emojis at runtime via codepoints — immune to file encoding issues
-function cp(...pts: number[]) { return String.fromCodePoint(...pts); }
-const EM = {
-  coffee : cp(0x2615),
-  person : cp(0x1F464),
-  pin    : cp(0x1F4CD),
-  phone  : cp(0x1F4DE),
-  card   : cp(0x1F4B3),
-  memo   : cp(0x1F4DD),
-  money  : cp(0x1F4B0),
-  clock  : cp(0x1F552),
-  bill   : cp(0x1F4B5),
-  bank   : cp(0x1F3E6),
-};
-
-function buildDefaultTemplate(): string {
-  return (
-    `${EM.coffee} NUEVO PEDIDO ${EM.coffee}\n\n` +
-    `${EM.person} Nombre: {nombre}\n` +
-    `${EM.pin} Direcci${cp(0xF3)}n: {direccion}\n` +
-    `${EM.phone} N${cp(0xFA)}mero de contacto: {telefono}\n` +
-    `${EM.card} M${cp(0xE9)}todo de pago: {pago}\n\n` +
-    `${EM.memo} Pedido:\n{items}\n\n` +
-    `${EM.money} Total: {total}\n\n` +
-    `${EM.clock} Hora de entrega / recoger: ___________\n\n` +
-    `${EM.coffee} ${cp(0xA1)}Gracias por pedir con nosotros!`
-  );
-}
+// Default template uses only ASCII + WhatsApp *bold* formatting.
+// No emojis in code — they get corrupted by the file system.
+// Admin can add emojis via the settings template editor (pasted from phone).
+const DEFAULT_TEMPLATE =
+  "*NUEVO PEDIDO*\n" +
+  "--------------------------------\n\n" +
+  "*Nombre:* {nombre}\n" +
+  "*Direccion:* {direccion}\n" +
+  "*Contacto:* {telefono}\n" +
+  "*Metodo de pago:* {pago}\n\n" +
+  "*Pedido:*\n" +
+  "{items}\n\n" +
+  "*Total: {total}*\n\n" +
+  "*Hora de entrega / recoger:* __________\n\n" +
+  "Gracias por pedir con nosotros!";
 
 export default function CartModal() {
   const {
@@ -62,10 +49,10 @@ export default function CartModal() {
 
     const itemsText = items.map((i) => {
       const lbl = i.selectedPrice.label !== "Precio" ? ` (${i.selectedPrice.label})` : "";
-      return `  ${cp(0x2022)} ${i.quantity}x ${i.menuItem.name}${lbl} ${cp(0x2014)} $${fmt(i.selectedPrice.price * i.quantity)}`;
+      return `  - ${i.quantity}x ${i.menuItem.name}${lbl}: $${fmt(i.selectedPrice.price * i.quantity)}`;
     }).join("\n");
 
-    const base = (cartTemplate && cartTemplate.trim()) ? cartTemplate : buildDefaultTemplate();
+    const base = (cartTemplate && cartTemplate.trim()) ? cartTemplate : DEFAULT_TEMPLATE;
     const message = base
       .replace("{nombre}", form.nombre)
       .replace("{direccion}", form.direccion)
@@ -74,10 +61,9 @@ export default function CartModal() {
       .replace("{items}", itemsText)
       .replace("{total}", `$${fmt(totalPrice)}`);
 
-    // Use anchor click — most reliable method for WhatsApp deep links.
-    // window.open with noopener can re-encode the URL in some browsers.
     const number = whatsappNumber.replace(/\D/g, "");
     const url = "https://wa.me/" + number + "?text=" + encodeURIComponent(message);
+
     const a = document.createElement("a");
     a.href = url;
     a.target = "_blank";
@@ -118,7 +104,7 @@ export default function CartModal() {
           {/* Items */}
           <div className="px-5 py-4 space-y-3">
             {items.map((item) => {
-              const lbl = item.selectedPrice.label !== "Precio" ? ` ${cp(0xB7)} ${item.selectedPrice.label}` : "";
+              const lbl = item.selectedPrice.label !== "Precio" ? ` · ${item.selectedPrice.label}` : "";
               return (
                 <div key={`${item.menuItem.id}-${item.selectedPrice.id}`}
                   className="flex items-center gap-3 bg-parchment/50 rounded-xl px-4 py-3 border border-latte/40">
@@ -175,7 +161,7 @@ export default function CartModal() {
               </div>
               <div className="space-y-1">
                 <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                  <Phone size={10} /> {`N${cp(0xFA)}mero de contacto`}
+                  <Phone size={10} /> Contacto
                 </label>
                 <input required placeholder="Ej: 310 0000000" value={form.telefono}
                   onChange={(e) => setForm({ ...form, telefono: e.target.value })}
@@ -185,16 +171,16 @@ export default function CartModal() {
 
             <div className="space-y-1">
               <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                <MapPin size={10} /> {`Direcci${cp(0xF3)}n`}
+                <MapPin size={10} /> Direccion
               </label>
-              <input required placeholder={`Tu direcci${cp(0xF3)}n...`} value={form.direccion}
+              <input required placeholder="Tu direccion..." value={form.direccion}
                 onChange={(e) => setForm({ ...form, direccion: e.target.value })}
                 className="w-full bg-parchment border border-latte rounded-xl px-3 py-2.5 text-espresso text-sm placeholder:text-espresso/30 focus:outline-none focus:ring-2 focus:ring-roast/20 transition-all" />
             </div>
 
             <div className="space-y-1">
               <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                <CreditCard size={10} /> {`M${cp(0xE9)}todo de pago`}
+                <CreditCard size={10} /> Metodo de pago
               </label>
               <div className="flex gap-3">
                 {(["Efectivo", "Transferencia"] as const).map((method) => (
@@ -204,7 +190,7 @@ export default function CartModal() {
                     }`}>
                     <input type="radio" name="pago" value={method} checked={form.pago === method}
                       onChange={() => setForm({ ...form, pago: method })} className="sr-only" />
-                    {method === "Efectivo" ? EM.bill : EM.bank} {method}
+                    {method}
                   </label>
                 ))}
               </div>
@@ -212,7 +198,7 @@ export default function CartModal() {
 
             <div className="flex items-center gap-2 text-[10px] text-muted-foreground font-serif italic bg-parchment/60 rounded-lg p-2.5 border border-latte/30">
               <Clock size={12} className="text-roast shrink-0" />
-              El tiempo de entrega se coordinar{cp(0xE1)} directamente por WhatsApp.
+              El tiempo de entrega se coordinara directamente por WhatsApp.
             </div>
           </form>
         </div>
