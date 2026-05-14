@@ -209,7 +209,7 @@ export default function CartModal() {
 
             <div className="space-y-1">
               <label className="text-[10px] label-stamp text-latte flex items-center gap-1">
-                <MapPin size={10} /> Direcci&oacute;n / Punto de recogida
+                <MapPin size={10} /> Direcci&oacute;n
               </label>
               <input
                 required
