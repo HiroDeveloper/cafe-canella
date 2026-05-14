@@ -2,6 +2,7 @@ import GroupedCategoryNav from '@/components/public/GroupedCategoryNav';
 import FontSwitcher from '@/components/public/FontSwitcher';
 import PQRSButton from '@/components/public/PQRSButton';
 import MenuItemCard from '@/components/public/MenuItemCard';
+import CartWrapper from '@/components/public/CartWrapper';
 import { supabase } from '@/lib/supabase';
 import { Category, MenuItem } from '@/lib/types';
 import { Clock, MapPin, Wifi, Sparkles } from 'lucide-react';
@@ -134,6 +135,9 @@ export async function generateMetadata() {
 export default async function PublicMenuPage() {
   const { categories, itemsByCategory, groupedCategories, restaurantInfo } = await getMenuData();
 
+  const showCart = restaurantInfo.show_whatsapp_cart !== false && !!restaurantInfo.whatsapp_number;
+  const cartTemplate = restaurantInfo.cart_message_template || '';
+
   if (restaurantInfo.is_closed) {
     return (
       <main className="min-h-screen flex items-center justify-center p-6 bg-parchment bg-[var(--line-pattern)] bg-fixed">
@@ -167,6 +171,11 @@ export default async function PublicMenuPage() {
   }
 
   return (
+    <CartWrapper
+      showCart={showCart}
+      whatsappNumber={restaurantInfo.whatsapp_number || ''}
+      cartTemplate={cartTemplate}
+    >
     <div className="min-h-screen">
       {/* Header / Hero */}
       <header className="relative">
@@ -379,5 +388,6 @@ export default async function PublicMenuPage() {
         <WhatsAppIcon size={28} />
       </a>
     </div>
+    </CartWrapper>
   );
 }

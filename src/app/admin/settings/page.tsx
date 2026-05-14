@@ -15,7 +15,8 @@ import {
   Image as ImageIcon,
   Quote,
   QrCode,
-  ShieldAlert
+  ShieldAlert,
+  ShoppingCart
 } from "lucide-react";
 import ImageUploader from "@/components/admin/ImageUploader";
 import FontPicker from "@/components/admin/FontPicker";
@@ -140,6 +141,26 @@ export default function SettingsPage() {
               <div>
                 <span className="block font-sans font-semibold text-espresso text-sm">Fotos de productos al hacer clic</span>
                 <span className="block text-xs text-muted-foreground font-serif italic mt-0.5">Si está activo, los clientes podrán ver fotos de los productos al hacerles clic.</span>
+              </div>
+            </label>
+            <div className="h-px bg-latte/30 my-2" />
+            <label className="flex items-center gap-4 cursor-pointer p-2 rounded-lg hover:bg-parchment/50 transition-colors">
+              <div
+                onClick={() => setInfo({ ...info, show_whatsapp_cart: !info.show_whatsapp_cart })}
+                className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0 ${
+                  info.show_whatsapp_cart !== false ? "bg-[#25D366]" : "bg-latte"
+                }`}
+              >
+                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${
+                  info.show_whatsapp_cart !== false ? "left-7" : "left-1"
+                }`} />
+              </div>
+              <div>
+                <span className="flex items-center gap-2 font-sans font-semibold text-espresso text-sm">
+                  <ShoppingCart size={16} className={info.show_whatsapp_cart !== false ? "text-[#25D366]" : "text-latte"} />
+                  Carrito de Pedidos por WhatsApp
+                </span>
+                <span className="block text-xs text-muted-foreground font-serif italic mt-0.5">Si está activo, los clientes podrán agregar productos y enviar el pedido directo a WhatsApp con un formulario.</span>
               </div>
             </label>
             <div className="h-px bg-latte/30 my-2" />
@@ -415,6 +436,31 @@ export default function SettingsPage() {
                     </div>
                   </div>
                 </div>
+
+                {/* WhatsApp Cart Template */}
+                {info.show_whatsapp_cart !== false && (
+                  <div className="pt-4 border-t border-latte/30">
+                    <label className="text-[10px] label-stamp text-latte flex items-center gap-1 mb-3">
+                      <ShoppingCart size={12} className="text-[#25D366]" /> Plantilla del Carrito
+                    </label>
+                    <textarea
+                      rows={12}
+                      placeholder={`☕ NUEVO PEDIDO ☕\n\n👤 Nombre: {nombre}\n📍 Dirección: {direccion}\n📞 Número de contacto: {telefono}\n💳 Método de pago: {pago}\n\n📝 Pedido:\n{items}\n\n💰 Total: {total}\n\n🕒 Hora de entrega / recoger: ___________\n\n☕ ¡Gracias por pedir con nosotros!`}
+                      className="w-full bg-parchment border border-latte px-3 py-2 rounded outline-none focus:border-espresso font-mono text-xs resize-y min-h-[200px]"
+                      value={info.cart_message_template || ""}
+                      onChange={(e) => setInfo({...info, cart_message_template: e.target.value})}
+                    />
+                    <div className="mt-2 p-3 bg-parchment/60 rounded-lg border border-latte/40">
+                      <p className="text-[9px] label-stamp text-roast mb-1.5">Variables disponibles</p>
+                      <div className="flex flex-wrap gap-x-4 gap-y-1">
+                        {["{nombre}", "{direccion}", "{telefono}", "{pago}", "{items}", "{total}"].map(v => (
+                          <code key={v} className="text-[10px] bg-cream px-1.5 py-0.5 rounded border border-latte text-espresso font-mono">{v}</code>
+                        ))}
+                      </div>
+                      <p className="text-[9px] text-muted-foreground mt-2 font-serif italic">Deja el campo vacío para usar el formato predeterminado.</p>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
