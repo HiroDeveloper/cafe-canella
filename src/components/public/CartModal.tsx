@@ -57,8 +57,8 @@ export default function CartModal() {
     new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 })
       .format(n).replace("COP", "").trim();
 
-  const handleSend = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSend = (ev: React.FormEvent) => {
+    ev.preventDefault();
 
     const itemsText = items.map((i) => {
       const lbl = i.selectedPrice.label !== "Precio" ? ` (${i.selectedPrice.label})` : "";
@@ -74,8 +74,17 @@ export default function CartModal() {
       .replace("{items}", itemsText)
       .replace("{total}", `$${fmt(totalPrice)}`);
 
+    // Use anchor click — most reliable method for WhatsApp deep links.
+    // window.open with noopener can re-encode the URL in some browsers.
     const number = whatsappNumber.replace(/\D/g, "");
-    window.open(`https://wa.me/${number}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+    const url = "https://wa.me/" + number + "?text=" + encodeURIComponent(message);
+    const a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 
     clearCart();
     setIsOpen(false);
