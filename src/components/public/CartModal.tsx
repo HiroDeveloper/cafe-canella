@@ -69,19 +69,29 @@ export default function CartModal() {
       .replace("{total}", `$${fmt(totalPrice)}`);
 
     const number = whatsappNumber.replace(/\D/g, "");
-
-    // KEY FIX: use api.whatsapp.com/send DIRECTLY — bypasses the wa.me
-    // redirect which was decoding %E2%98%95 (☕) and re-encoding as
-    // %EF%BF%BD (U+FFFD replacement character), corrupting all emojis.
     const encoded = injectEmojis(encodeURIComponent(message));
-    const url = "https://api.whatsapp.com/send?phone=" + number + "&text=" + encoded;
 
-    window.open(url, "_blank", "noopener,noreferrer");
+    // On mobile: use whatsapp:// deep link — goes DIRECTLY to the app
+    // without passing through any web server, so no encode/decode corruption.
+    // On desktop: use api.whatsapp.com/send as fallback.
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const url = isMobile
+      ? `whatsapp://send?phone=${number}&text=${encoded}`
+      : `https://api.whatsapp.com/send?phone=${number}&text=${encoded}`;
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.target = isMobile ? "_self" : "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
 
     clearCart();
     setIsOpen(false);
     setForm({ nombre: "", direccion: "", telefono: "", pago: "Efectivo" });
   };
+
 
   return (
     <div className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center bg-espresso/60 backdrop-blur-md animate-in fade-in duration-200">
