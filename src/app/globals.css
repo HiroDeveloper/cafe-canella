@@ -31,6 +31,7 @@
   --color-roast: var(--roast);
   --color-latte: var(--latte);
   --color-botanical: var(--botanical);
+  --color-gold: var(--gold);
 
   --font-serif: var(--font-primary, var(--font-next-serif)), "Noto Serif", Georgia, serif;
   --font-sans: var(--font-secondary, var(--font-next-sans)), "Plus Jakarta Sans", system-ui, sans-serif;
@@ -86,6 +87,7 @@
   --roast:     var(--tertiary-container);         /* #632b00 */
   --latte:     var(--outline-variant);            /* #d7c2ba */
   --botanical: var(--on-tertiary-container);      /* #e98f58 */
+  --gold:      var(--secondary-container);        /* #fdbf35 – Canela gold */
 
   --background:          var(--surface);
   --foreground:          var(--on-surface);
@@ -187,14 +189,14 @@
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    color: var(--color-roast);
+    color: var(--color-gold);
   }
 
   .ornament::before, .ornament::after {
     content: "";
     flex: 1;
     height: 1px;
-    background: linear-gradient(to right, transparent, var(--color-latte), transparent);
+    background: linear-gradient(to right, transparent, color-mix(in srgb, var(--color-gold) 50%, transparent), transparent);
     max-width: 120px;
   }
 
@@ -207,9 +209,10 @@
     color: var(--color-espresso);
   }
   .nav-pill[data-active="true"] {
-    background: var(--color-espresso);
-    color: var(--color-cream);
-    box-shadow: var(--shadow-warm-sm);
+    background: var(--color-gold);
+    color: var(--color-espresso);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--color-gold) 50%, transparent);
+    border-color: color-mix(in srgb, var(--color-gold) 60%, transparent);
   }
 
   .hide-scrollbar {

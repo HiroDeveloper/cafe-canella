@@ -189,6 +189,8 @@ export default async function PublicMenuPage() {
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-espresso/60 via-espresso/55 to-espresso/85"></div>
+          {/* Línea dorada de marca — espeja el arco dorado del logo */}
+          <div className="absolute bottom-0 left-0 right-0 h-[3px]" style={{ background: 'linear-gradient(to right, transparent, var(--color-gold), transparent)' }} />
           <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
             <p className="label-stamp text-latte/90 text-[0.65rem] sm:text-xs">Establecido en el aroma del café</p>
             <h1 
@@ -274,9 +276,9 @@ export default async function PublicMenuPage() {
         {/* Recommendations */}
         <div className="max-w-4xl mx-auto px-6 mt-8">
           <div className="menu-card p-5 sm:p-7 text-center">
-            <div className="flex items-center justify-center gap-2 text-roast">
+            <div className="flex items-center justify-center gap-2" style={{ color: 'var(--color-gold)' }}>
               <Sparkles size={14} />
-              <span className="label-stamp text-[0.65rem] sm:text-xs">Recomendación del día</span>
+              <span className="label-stamp text-[0.65rem] sm:text-xs" style={{ color: 'var(--color-gold)' }}>Recomendación del día</span>
               <Sparkles size={14} />
             </div>
             <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
@@ -310,10 +312,10 @@ export default async function PublicMenuPage() {
           <div key={groupName} id={`group-${groupName.toLowerCase().replace(/\s+/g, '-')}`} className="space-y-8 scroll-mt-24">
             {/* Separador de grupo — estilo Recomendación del Día */}
             <div className="menu-card p-6 sm:p-8 text-center">
-              <div className="flex items-center justify-center gap-3 text-latte">
-                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-latte to-transparent max-w-24" />
-                <span className="label-stamp text-roast text-[0.65rem] sm:text-xs tracking-[0.25em]">{groupName}</span>
-                <div className="h-px flex-1 bg-gradient-to-l from-transparent via-latte to-transparent max-w-24" />
+              <div className="flex items-center justify-center gap-3">
+                <div className="h-px flex-1 max-w-24" style={{ background: 'linear-gradient(to right, transparent, var(--color-gold))' }} />
+                <span className="label-stamp text-[0.65rem] sm:text-xs tracking-[0.25em]" style={{ color: 'var(--color-gold)' }}>{groupName}</span>
+                <div className="h-px flex-1 max-w-24" style={{ background: 'linear-gradient(to left, transparent, var(--color-gold))' }} />
               </div>
               <h2 className="mt-3 font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-espresso italic tracking-tight">
                 {groupName}
@@ -335,7 +337,7 @@ export default async function PublicMenuPage() {
                       {cat.name}
                     </h3>
                     <div className="ornament mt-3">
-                      <span className="text-roast text-sm">✦</span>
+                      <span className="text-sm" style={{ color: 'var(--color-gold)' }}>✦</span>
                     </div>
                   </div>
 
