@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
-import { Epilogue, Plus_Jakarta_Sans } from "next/font/google";
+import { Noto_Serif, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 const sans = Plus_Jakarta_Sans({
   variable: "--font-next-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const serif = Epilogue({
+const serif = Noto_Serif({
   variable: "--font-next-serif",
   subsets: ["latin"],
   weight: ["400", "600", "700"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
