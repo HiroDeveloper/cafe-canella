@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --radius-sm: 0.125rem;
-  --radius-md: 0.25rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
+  /* ── Artisanal Heritage System ── border-radius ── */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -23,6 +24,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
+  /* ── Brand aliases kept for backward-compat ── */
   --color-cream: var(--cream);
   --color-parchment: var(--parchment);
   --color-espresso: var(--espresso);
@@ -30,55 +32,98 @@
   --color-latte: var(--latte);
   --color-botanical: var(--botanical);
 
-  --font-serif: var(--font-primary, var(--font-next-serif)), "Noto Serif", Georgia, serif;
+  --font-serif: var(--font-primary, var(--font-next-serif)), "Epilogue", Georgia, serif;
   --font-sans: var(--font-secondary, var(--font-next-sans)), "Plus Jakarta Sans", system-ui, sans-serif;
 }
 
 :root {
-  --radius: 0.25rem;
-  --cream: oklch(0.975 0.008 80);
-  --parchment: oklch(0.945 0.012 78);
-  --espresso: oklch(0.28 0.04 50);
-  --roast: oklch(0.5 0.06 55);
-  --latte: oklch(0.82 0.04 70);
-  --botanical: oklch(0.52 0.04 120);
+  --radius: 0.5rem;
 
-  --background: var(--parchment);
-  --foreground: var(--espresso);
-  --card: var(--cream);
-  --card-foreground: var(--espresso);
-  --popover: var(--cream);
-  --popover-foreground: var(--espresso);
-  --primary: var(--espresso);
-  --primary-foreground: var(--cream);
-  --secondary: var(--roast);
-  --secondary-foreground: var(--cream);
-  --muted: oklch(0.92 0.012 78);
-  --muted-foreground: oklch(0.45 0.04 55);
-  --accent: var(--botanical);
-  --accent-foreground: var(--cream);
-  --destructive: oklch(0.55 0.18 27);
-  --destructive-foreground: var(--cream);
-  --border: var(--latte);
-  --input: var(--latte);
-  --ring: var(--roast);
+  /* ── Artisanal Heritage System – core palette ── */
 
-  --shadow-warm-sm: 0 1px 2px rgba(75, 54, 33, 0.06), 0 1px 1px rgba(75, 54, 33, 0.04);
-  --shadow-warm: 0 4px 12px rgba(75, 54, 33, 0.08), 0 2px 4px rgba(75, 54, 33, 0.05);
-  --shadow-warm-lg: 0 12px 32px rgba(75, 54, 33, 0.10), 0 4px 8px rgba(75, 54, 33, 0.06);
-  --shadow-pressed: inset 0 1px 2px rgba(75, 54, 33, 0.12);
+  /* Surface / Neutral */
+  --surface:                   #fbf9f6;
+  --surface-dim:               #dbdad7;
+  --surface-bright:            #fbf9f6;
+  --surface-container-lowest:  #ffffff;
+  --surface-container-low:     #f5f3f0;
+  --surface-container:         #efeeeb;
+  --surface-container-high:    #eae8e5;
+  --surface-container-highest: #e4e2df;
+  --on-surface:                #1b1c1a;
+  --on-surface-variant:        #52443e;
+  --inverse-surface:           #30312f;
+  --inverse-on-surface:        #f2f0ed;
+  --outline:                   #85736d;
+  --outline-variant:           #d7c2ba;
+
+  /* Primary – Deep Coffee Brown */
+  --primary-brand:             #421904;
+  --primary-container:         #5d2e17;
+  --on-primary-container:      #d99577;
+  --inverse-primary:           #feb696;
+  --surface-tint:              #885037;
+
+  /* Secondary – Warm Cinnamon Gold */
+  --secondary-brand:           #7b5800;
+  --secondary-container:       #fdbf35;
+  --on-secondary-container:    #6e4f00;
+
+  /* Tertiary – Rich Earth */
+  --tertiary-brand:            #421a00;
+  --tertiary-container:        #632b00;
+  --on-tertiary-container:     #e98f58;
+
+  /* Error */
+  --error-brand:               #ba1a1a;
+  --error-container:           #ffdad6;
+  --on-error-container:        #93000a;
+
+  /* ── Semantic aliases (preserve existing var names) ── */
+  --cream:     var(--surface-container-lowest);   /* #ffffff */
+  --parchment: var(--surface);                    /* #fbf9f6 */
+  --espresso:  var(--primary-brand);              /* #421904 */
+  --roast:     var(--tertiary-container);         /* #632b00 */
+  --latte:     var(--outline-variant);            /* #d7c2ba */
+  --botanical: var(--on-tertiary-container);      /* #e98f58 */
+
+  --background:          var(--surface);
+  --foreground:          var(--on-surface);
+  --card:                var(--surface-container-lowest);
+  --card-foreground:     var(--on-surface);
+  --popover:             var(--surface-container-lowest);
+  --popover-foreground:  var(--on-surface);
+  --primary:             var(--primary-brand);
+  --primary-foreground:  #ffffff;
+  --secondary:           var(--secondary-brand);
+  --secondary-foreground:#ffffff;
+  --muted:               var(--surface-container-high);
+  --muted-foreground:    var(--on-surface-variant);
+  --accent:              var(--secondary-container);
+  --accent-foreground:   var(--on-secondary-container);
+  --destructive:         var(--error-brand);
+  --destructive-foreground: #ffffff;
+  --border:              var(--outline-variant);
+  --input:               var(--surface-container-low);
+  --ring:                var(--surface-tint);
+
+  /* ── Warm shadows tinted with primary-container (#5d2e17) ── */
+  --shadow-warm-sm: 0 1px 2px rgba(93, 46, 23, 0.06), 0 1px 1px rgba(93, 46, 23, 0.04);
+  --shadow-warm:    0 4px 12px rgba(93, 46, 23, 0.08), 0 2px 4px rgba(93, 46, 23, 0.05);
+  --shadow-warm-lg: 0 12px 24px rgba(93, 46, 23, 0.10), 0 4px 8px rgba(93, 46, 23, 0.06);
+  --shadow-pressed: inset 0 1px 2px rgba(93, 46, 23, 0.12);
 
   --paper-texture:
-    radial-gradient(circle at 20% 30%, rgba(120, 88, 62, 0.04) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(120, 88, 62, 0.035) 0%, transparent 45%);
+    radial-gradient(circle at 20% 30%, rgba(136, 80, 55, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(136, 80, 55, 0.035) 0%, transparent 45%);
 
   --line-pattern:
     repeating-linear-gradient(
       0deg,
       transparent 0px,
       transparent 31px,
-      rgba(75, 54, 33, 0.055) 31px,
-      rgba(75, 54, 33, 0.055) 32px
+      rgba(93, 46, 23, 0.05) 31px,
+      rgba(93, 46, 23, 0.05) 32px
     );
 }
 
